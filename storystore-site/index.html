@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Story Store</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <!-- Leaflet CSS -->
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+<!-- Leaflet JS -->
+<script
+  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+></script>
+
+  <style>
+    :root {
+      --story-grey: #58595B;
+      /* --story-red: #DE3A3A; */
+      --story-red: #FF4441;
+      /*--white: #FFFFFF; */
+      --white: #F4F0EB;
+      --bright-accent: #FFD166;
+      --hover-pink: #FF8FA3;
+    }
+
+    html, body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background: var(--white);
+      color: var(--story-grey);
+      scroll-behavior: smooth;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* --- Sticky Header --- */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      gap: 3rem; /* space between logo and nav */
+      padding: 1rem 2rem;
+    }
+
+    header img {
+      width: 140px;
+      height: auto;
+    }
+
+    nav {
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav a {
+      text-transform: uppercase;
+      font-weight: 400;
+      font-size: 1.2rem;
+      color: var(--story-red);
+      position: relative;
+      padding-bottom: 2px;
+    }
+
+    nav a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 2px;
+      background-color: transparent;
+      transition: background-color 0.3s ease;
+    }
+
+    nav a:hover::after {
+      background-color: var(--hover-pink);
+    }
+
+    /* --- Hero Section --- */
+    #hero {
+      background: var(--story-red);
+      color: var(--white);
+      min-height: calc(100vh - 80px); /* minus approx header height */
+      display: flex;
+      align-items: center;
+      padding: 0 2rem;
+    }
+
+    #hero h1 {
+      font-size: clamp(2rem, 10vw, 4rem);
+      font-weight: 900;
+      line-height: 1.2;
+      max-width: 800px;
+      margin: 0;
+      text-align: left;
+    }
+
+    /* --- About Section --- */
+    #about {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      padding: 4rem 2rem;
+      flex-wrap: wrap;
+    }
+
+    #about .text {
+      flex: 1 1 300px;
+      max-width: 600px;
+    }
+
+    #about h2 {
+      font-size: 3rem;       
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--story-grey);
+    }
+
+    #about p {
+      font-size: 1.125rem;   
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    #about img {
+      flex: 1 1 300px;
+      max-width: 600px;
+      width: 100%;
+      border-top-left-radius: 4rem;
+      object-fit: cover;
+    }
+
+    /* --- Map Section --- */
+    #map-section {
+      padding: 4rem 2rem;
+      background: #f9f9f9; /* light background for contrast */
+      text-align: center;
+    }
+
+    #map-section h2 {
+      font-size: 3rem;
+      margin-bottom: 2rem;
+      color: var(--story-red);
+    }
+
+    #map {
+      width: 100%;
+      height: 500px;        /* adjust height as needed */
+      border-radius: 1rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    /* --- News Section --- */
+    #news {
+      padding: 4rem 2rem;
+      text-align: center;
+    }
+
+    #news h2 {
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      color: var(--story-red);
+    }
+
+    #news iframe {
+      width: 100%;
+      max-width: 900px;
+      height: 600px;
+      border: none;
+    }
+
+    /* --- Footer with geometric pattern --- */
+    footer {
+      position: relative;
+      background: var(--story-grey);
+      color: var(--white);
+      padding: 6rem 2rem 2rem; /* extra top padding for pattern overlap */
+      text-align: center;
+      overflow: hidden;
+    }
+
+      .footer-pattern {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 160px; /* Taller for multiple rows */
+      }
+      .footer-pattern svg {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+
+    .footer-content {
+      margin-top: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    footer a {
+      color: var(--bright-accent);
+      text-decoration: underline;
+    }
+    footer a:hover {
+      color: var(--hover-pink);
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      nav {
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      #hero {
+        padding: 2rem;
+      }
+
+      #about {
+        flex-direction: column;
+      }
+
+      #about img {
+        border-radius: 2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Sticky Header -->
+  <header>
+    <img src="assets/images/logo.png" alt="The Story Store Logo">
+    <nav>
+      <a href="#about">About</a>
+      <a href="#news">News</a>
+      <a href="#contact">Contact</a>
+      <a href="#donate">Donate</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="hero">
+    <h1>Collecting and sharing great books so every child has stories they love</h1>
+  </section>
+
+  <!-- About Section -->
+  <section id="about">
+    <div class="text">
+      <h2>About us</h2>
+      <p>Story Store aims to collect excellent condition, 2nd-hand children's books and then make them available, for free, to school libraries that are under-resourced, thereby improving access by ALL tamariki to books that they WANT to read.</p>
+    </div>
+    <img src="assets/images/books-hero.jpg" alt="Books">
+  </section>
+
+  <!-- Map Section -->
+  <section id="map-section">
+    <h2>Schools We’ve Helped</h2>
+    <div id="map"></div>
+  </section>
+
+
+  <!-- News Section -->
+  <section id="news">
+    <h2>Latest News</h2>
+    <iframe src="https://storystore.athenaeum.nz" title="Story Store Blog"></iframe>
+  </section>
+
+  <!-- Footer with geometric pattern -->
+  <footer>
+    <div class="footer-pattern">
+      <svg viewBox="0 0 200 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- First row of cubes -->
+      </svg>
+    </div>
+
+    <div class="footer-content">
+      &copy; The Story Store – Follow us on 
+      <a href="https://instagram.com" target="_blank">Instagram</a>
+    </div>
+  </footer>
+<script>
+  // Initialize map centered on Auckland
+  var map = L.map('map').setView([-36.8485, 174.7633], 11); // Auckland coords
+
+  // Add OpenStreetMap tiles
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  // Example school pins (replace with real data)
+  var schools = [
+    { name: "School A", coords: [-36.85, 174.76] },
+    { name: "School B", coords: [-36.87, 174.75] },
+    { name: "School C", coords: [-36.83, 174.78] }
+  ];
+
+  // Add markers
+  schools.forEach(function(school) {
+    L.marker(school.coords).addTo(map)
+      .bindPopup("<b>" + school.name + "</b>");
+  });
+</script>
+
+</body>
+</html>
