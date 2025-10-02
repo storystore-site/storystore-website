@@ -1,247 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Story Store</title>
 
+  <!-- Google Map -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 
-  <!-- Leaflet CSS -->
-<link
-  rel="stylesheet"
-  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-/>
-<!-- Leaflet JS -->
-<script
-  src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-></script>
+  <!-- Map Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <!-- Map Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-  <style>
-    :root {
-      --story-grey: #58595B;
-      /* --story-red: #DE3A3A; */
-      --story-red: #FF4441;
-      /*--white: #FFFFFF; */
-      --white: #F4F0EB;
-      --bright-accent: #FFD166;
-      --hover-pink: #FF8FA3;
-    }
-
-    html, body {
-      margin: 0;
-      font-family: 'Roboto', sans-serif;
-      background: var(--white);
-      color: var(--story-grey);
-      scroll-behavior: smooth;
-    }
-
-    a { text-decoration: none; color: inherit; }
-
-    /* --- Sticky Header --- */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: var(--white);
-      display: flex;
-      align-items: center;
-      gap: 3rem; /* space between logo and nav */
-      padding: 1rem 2rem;
-    }
-
-    header img {
-      width: 140px;
-      height: auto;
-    }
-
-    nav {
-      display: flex;
-      gap: 2rem;
-    }
-
-    nav a {
-      text-transform: uppercase;
-      font-weight: 400;
-      font-size: 1.2rem;
-      color: var(--story-red);
-      position: relative;
-      padding-bottom: 2px;
-    }
-
-    nav a::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      height: 2px;
-      background-color: transparent;
-      transition: background-color 0.3s ease;
-    }
-
-    nav a:hover::after {
-      background-color: var(--hover-pink);
-    }
-
-    /* --- Hero Section --- */
-    #hero {
-      background: var(--story-red);
-      color: var(--white);
-      min-height: calc(100vh - 80px); /* minus approx header height */
-      display: flex;
-      align-items: center;
-      padding: 0 2rem;
-    }
-
-    #hero h1 {
-      font-size: clamp(2rem, 10vw, 4rem);
-      font-weight: 900;
-      line-height: 1.2;
-      max-width: 800px;
-      margin: 0;
-      text-align: left;
-    }
-
-    /* --- About Section --- */
-    #about {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 2rem;
-      padding: 4rem 2rem;
-      flex-wrap: wrap;
-    }
-
-    #about .text {
-      flex: 1 1 300px;
-      max-width: 600px;
-    }
-
-    #about h2 {
-      font-size: 3rem;       
-      font-weight: 700;
-      margin-bottom: 1rem;
-      color: var(--story-grey);
-    }
-
-    #about p {
-      font-size: 1.125rem;   
-      line-height: 1.7;
-      margin: 0;
-    }
-
-    #about img {
-      flex: 1 1 300px;
-      max-width: 600px;
-      width: 100%;
-      border-top-left-radius: 4rem;
-      object-fit: cover;
-    }
-
-    /* --- Map Section --- */
-    #map-section {
-      padding: 4rem 2rem;
-      background: #f9f9f9; /* light background for contrast */
-      text-align: center;
-    }
-
-    #map-section h2 {
-      font-size: 3rem;
-      margin-bottom: 2rem;
-      color: var(--story-red);
-    }
-
-    #map {
-      width: 100%;
-      height: 500px;        /* adjust height as needed */
-      border-radius: 1rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    }
-
-    /* --- News Section --- */
-    #news {
-      padding: 4rem 2rem;
-      text-align: center;
-    }
-
-    #news h2 {
-      margin-bottom: 2rem;
-      font-size: 2rem;
-      color: var(--story-red);
-    }
-
-    #news iframe {
-      width: 100%;
-      max-width: 900px;
-      height: 600px;
-      border: none;
-    }
-
-    /* --- Footer with geometric pattern --- */
-    footer {
-      position: relative;
-      background: var(--story-grey);
-      color: var(--white);
-      padding: 6rem 2rem 2rem; /* extra top padding for pattern overlap */
-      text-align: center;
-      overflow: hidden;
-    }
-
-      .footer-pattern {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 160px; /* Taller for multiple rows */
-      }
-      .footer-pattern svg {
-        display: block;
-        width: 100%;
-        height: 100%;
-      }
-
-
-    .footer-content {
-      margin-top: 2rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    footer a {
-      color: var(--bright-accent);
-      text-decoration: underline;
-    }
-    footer a:hover {
-      color: var(--hover-pink);
-    }
-
-    /* --- Responsive --- */
-    @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
-      }
-
-      nav {
-        flex-wrap: wrap;
-        gap: 1rem;
-      }
-
-      #hero {
-        padding: 2rem;
-      }
-
-      #about {
-        flex-direction: column;
-      }
-
-      #about img {
-        border-radius: 2rem;
-      }
-    }
-  </style>
+  <!-- Story Store CSS -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
@@ -253,73 +27,402 @@
       <a href="#about">About</a>
       <a href="#news">News</a>
       <a href="#contact">Contact</a>
-      <a href="#donate">Donate</a>
+      <a href="https://givealittle.co.nz/org/the-story-store-trust" target="_blank" class="donate-btn">Donate</a>
     </nav>
   </header>
 
   <!-- Hero Section -->
   <section id="hero">
-    <h1>Collecting and sharing great books so every child has stories they love</h1>
+    <div class="hero-content">
+      <h1>Collecting and sharing great books so every child has stories they&nbsp;love</h1>
+      <a href="#about" class="hero-about-btn">About</a>
+    </div>
+    <div class="animation-container">
+      <?xml version="1.0" encoding="UTF-8"?>
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 600 800">
+        <defs>
+          <linearGradient id="linear-gradient" x1="987.08" y1="-1764.09" x2="1239.58" y2="-1764.09"
+            gradientTransform="translate(-97.65 2201.25) rotate(-19.32)" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#ff4340" />
+            <stop offset="1" stop-color="#f4e7ce" />
+          </linearGradient>
+        </defs>
+        <g id="shoot">
+          <path
+            d="M495.77,259.87L206.74,85.48l8.04-14.28,298.15,158.23c14.89,8.4,23.12,22.02,18.38,30.43-4.74,8.4-20.65,8.41-35.56,0Z"
+            fill="url(#linear-gradient)" />
+        </g>
+        <g id="star">
+          <path
+            d="M573.53,252.38c-.49,3.05-1.79,5.67-4.55,6.82-2.81.5-11.85.37-10.91,4.55,2.57,6.55,13.46,15.95,2.27,20.61-5.68-.33-10.82-4.23-15.76-6.97-5.75,3.04-12.93,15.35-15.31,21.52-3.52,4.61-7.54,3.55-11.36.45-4.85-4.56-1.5-18.8-1.82-24.85.69-16.28-5.41-1.47-22.58-16.22-3.86-4.7-.73-9.89,4.55-11.21,3.85.11,7.62-.57,11.37-1.21,2.89-.67,5.98-.88,8.79-1.06,1.37-.79,1.45-2.5,1.82-4.09,1.29-6.06,3.04-23.99,11.21-23.34,12.55,1.13,11.73,16.79,12.12,26.07.45.3.91.91,1.36,1.36,9.45.04,26.05-5.79,28.79,7.58Z"
+            fill="#f4f0eb" />
+        </g>
+        <g id="wheel">
+          <path
+            d="M308.39,602.86l-17.24-2.11c-5.64-.69-8.57-7.09-5.39-11.81l9.7-14.41c4.34-6.44-2.63-14.48-9.63-11.11l-15.65,7.55c-5.12,2.47-11.04-1.34-10.92-7.02l.37-17.37c.16-7.77-10.04-10.76-14.1-4.14l-9.08,14.81c-2.97,4.85-10.01,4.85-12.98,0l-9.08-14.81c-4.06-6.62-14.27-3.63-14.1,4.14l.37,17.37c.12,5.68-5.8,9.49-10.92,7.02l-15.65-7.55c-7-3.38-13.96,4.66-9.63,11.11l9.7,14.41c3.17,4.72.25,11.12-5.39,11.81l-17.24,2.11c-7.71.94-9.22,11.47-2.09,14.55l15.95,6.88c5.22,2.25,6.22,9.22,1.85,12.85l-13.37,11.1c-5.98,4.96-1.56,14.64,6.11,13.37l17.14-2.84c5.61-.93,10.22,4.39,8.5,9.81l-5.25,16.56c-2.35,7.41,6.6,13.16,12.37,7.95l12.89-11.65c4.21-3.81,10.97-1.83,12.46,3.66l4.54,16.77c2.03,7.5,12.67,7.5,14.7,0l4.54-16.77c1.49-5.49,8.24-7.47,12.46-3.66l12.89,11.65c5.76,5.21,14.71-.54,12.37-7.95l-5.25-16.56c-1.72-5.42,2.89-10.74,8.5-9.81l17.14,2.84c7.66,1.27,12.08-8.41,6.11-13.37l-13.37-11.1c-4.37-3.63-3.37-10.6,1.85-12.85l15.95-6.88c7.13-3.08,5.62-13.61-2.09-14.55Z"
+            fill="#f4f0eb" />
+        </g>
+        <g id="hat">
+          <path
+            d="M312.81,538.07c-3.09,8.71-6.98,18.42-6.57,27.88.35,7.85,4.41,12.75,9.25,20.39,2.77,4.38,5.29,8.86,7.48,13.62,5.68,12.25,8.74,26.55,7.89,39.94-.29,6.16-1.44,13.45.98,18.89,4.2,9.5,14.99,14.13,22.13,21.18,6.43,6.01,9.59,14.04-1.85,17.61-13.31,4.82-46.39.81-64.38-3.11-17.88-3.51-34.65-8.74-51.76-15.49-17.23-7.01-41.72-18.24-44.49-30.08-.62-5.25,4.46-7.79,9.2-9.24,5.97-1.8,13.31-2.01,19.88-2.39,6.31-.44,12.52-1.08,17.63-4.42,4.48-2.91,7.17-7.69,9.62-12.67,12.71-28.7,39.17-66.15,55.86-84.62,6.23-6.87,10.69-10.53,11.78-9.02.57,1.09.21,2.17-.03,3.49-.61,2.55-1.6,5.2-2.59,7.98"
+            fill="#f1f2f2" fill-rule="evenodd" />
+        </g>
+        <g id="crown">
+          <polygon
+            points="359.17 252.11 379.96 175.2 390.86 233.16 419.98 185.06 420.44 243.06 464.09 190.34 443.23 271.03 359.17 252.11"
+            fill="#f4f0eb" />
+        </g>
+        <g id="plane">
+          <path
+            d="M409.13,540.62l-4.6,13.99-4.4,10.39-15.98,3.4-19.58,2.8h-25.78l-14.99-1,9.59,16.18,5.39,11.19c.2,0,8.79,15.39-5.79,21.98-8.99,4.2-21.78-20.38-21.98-20.58l-11.79-19.18-5.39-6.59.8-4-9.99-1.4h-14.79c-.8-.2-20.58-3.8-19.98-12.59.4-7.79,6.99-11.59,15.79-12.59,9.19-1.2,25.78-2,25.78-2l11.19-24.58c0-.2,13.79-39.36,22.78-39.36,4.2,0,8.39,5.99,8.99,6.79l-2,16.38-4,13.59-7.39,24.18s-.2,5,1.4,7.59c1.2,2,15.78,1.6,15.78,1.6l31.97-.2,23.78-2,5.99-8.19c.2-.2,7.79-12.99,10.79-11.19,3.4,2.2-1.6,14.99-1.6,15.39Z"
+            fill="#f4f0eb" />
+        </g>
+        <g id="footprint">
+          <g>
+            <path d="M144.6,498.54s-10.62-2.26-8.38-12.97c2.24-10.71,12.29-21.99,24.59-15.78s-.56,33.26-16.21,28.75Z"
+              fill="#f4f0eb" />
+            <path d="M186.34,492.56s-7.52-1.6-5.94-9.19,8.71-15.58,17.42-11.19c8.71,4.39-.4,23.57-11.48,20.38Z"
+              fill="#f4f0eb" />
+            <path
+              d="M195.02,530.22s-7.52-1.6-5.94-9.19c1.58-7.59,8.71-15.58,17.42-11.19,8.71,4.39-.4,23.57-11.48,20.38Z"
+              fill="#f4f0eb" />
+            <path
+              d="M156.85,538.67s-13.91-2.96-10.99-16.99c2.93-14.04,16.11-28.81,32.22-20.69,16.11,8.13-.73,43.59-21.24,37.68Z"
+              fill="#f4f0eb" />
+          </g>
+        </g>
+        <g id="blink">
+          <path
+            d="M199.67,133.85c-5.92-.45-16.23-4.81-18.14-10.89-1.57-4.75,2.14-9.22,6.8-9.84,7.39-.09,15.12-.33,22.5-.35,4.03.04,9.51-.3,13.26,1.58,4.53,2.75,6.93,6.65,5.41,11.95-.73,3.13-4.59,4.92-7.32,5.8-3.45.36-6.04.1-9.42.18-4.21.41-9.06,1.58-13.08,1.58ZM186.41,74.47c-2.26-6.18,2.36-11.36,8.72-10.19,6.01,1.67,10.19,5.35,15.87,7.9,7.43,3.24,14.12,5.85,20.75,10.72,2.35,1.14,4.21,2.83,4.71,5.45,1.66,6.08-4,11.33-9.94,10.89-1.14.11-1.7-1.02-2.79-1.58-3.31-1.76-5.23-2.63-8.55-4.22-4.94-1.75-8.78-2.86-13.26-5.45-6.01-3.87-12.6-6.69-15.52-13.53ZM234.03,155.1c3.13,9.95-10.57,11.31-15.87,16.69-7.53,4.63-14.53,14.05-24.24,11.42-2.7-1.04-6.83-5.2-7.67-8.08-.32-2.64-.63-4.15,0-6.68.35-1.23,1.22-1.58,2.27-2.28,8.29-5.68,15.64-10.29,24.07-15.81,4.56-2.72,10.86-6.06,15.52-1.93,2.85,1.46,5.18,3.44,5.93,6.67Z"
+            fill="#f4f0eb" />
+          <path
+            d="M399.97,179.62c1.33,3.36-.24,7.85-3.31,9.66-6.72,2.44-14.93-4.22-21.28-6.67-8.68-4.73-17.37-8.23-26.68-11.77-4.37-2.34-8.09-6.24-7.85-11.42-.45-3,2.33-5.55,5.06-6.32,15.13-.04,27.62,10.13,40.81,16.34,5.53,1.65,10.38,5.1,13.26,10.19ZM346.25,131.84c-1.03-2.07-1.13-3.88-1.4-6.32.99-2.03,2.32-3.22,4.01-4.74,4.84-1.5,10.09-.95,15-2.11,6.3-1.16,12.43-2.66,18.84-2.99,3.05-.07,5.02-1.11,7.85,0,3.6,1.53,8.63,5.38,9.42,9.31.77,3.13.25,6.58-2.79,8.26-4.65,1.93-10.02,1.19-15,1.93-3.02.55-5.43,1.9-8.55,2.11-1.76.06-2.95-.16-4.71.18-4.48,1.19-8.78,2.25-13.43,2.11-3.77-1.74-7.2-4.06-9.24-7.73ZM403.98,73c.48,5.59-6.57,7.22-10.11,10.36-5.93,3.51-10.91,7.25-16.39,11.24-5.99,3.41-11.35,9.85-18.49,9.84-6.55-1.11-12.72-9.18-8.02-15.28,12.71-9.9,24.34-19.99,39.07-26.88,1.85-.63,4.46-.46,6.28.53,3.27,3.01,7.57,5.38,7.67,10.19Z"
+            fill="#f4f0eb" />
+        </g>
+        <g id="trophy">
+          <path
+            d="M289.16,70.25c6.68.51,7.54,8.03,3.66,12.29-1.65,1.96-.45,2.19-.21,4.53.23.84.22,2.23,1.29,2.37,4.24,2.02,12.41,2.66,9.48,9.49,13.07-.34,11.73-4.19,10.56,10.13,3.64-.11,24.66-3.42,22.42,3.02-3.74,9.48-7.81,19.89-12.93,28.67-3.01,3.13-7.63,5.48-11.42,7.54-2.19.11-5.52-1.51-6.9-.43-2.18,11.65-7.86,23.62-17.03,31.47,3.73,4.65,2.58,8.9-1.94,12.29,4.59,6.15-.82,7.88,3.23,9.92,3.47,1.12,10.67,2.08,11.43,6.47,1.54,4.69,1.71,4.78-3.45,5.6-10.19.77-20.54,2.28-31.26,1.94-1.66-1.4-1.34-2.08-.86-4.31.02-5.83,7.68-6.23,9.7-9.27-.65-4.24,1.91-8.6,5.39-10.56-1.02-1.6-3.73-3.96-3.23-6.25.31-3.99,4.84-4.88,1.94-6.47-8.77-5.17-11.36-17.01-14.87-25.87-1.63-3.69-8.76,1.8-14.01-7.98-4.59-5.28-4.95-12.18-7.33-18.75-.46-4.92-5.12-12.95,2.8-12.5,24.57-1.44,12.06,3.49,17.03-11.21,1.45-.57,4.8-.72,6.68-.65,5.05-1.8-2-8.18,9.92-11.64,6.87-3.44,6.61-3.87,1.08-9.27-.2-5.04,3.86-9.85,8.84-10.56ZM254.88,116.59c-4.36-.21-6.91-.05-10.13.22,0,0,0,1.94,0,1.94,2.6,10.13,3.81,28.98,17.46,29.1-.19-6.29-.95-21.44-.86-30.83-1.52-.52-3.02-.4-6.47-.43ZM265.01,123.92c-.37-.23-.2,1,0,.43,0,0,0-.43,0-.43ZM276.44,94.82c.04.06-1.33.69-.86,1.08.48.07.8-.88.86-1.08ZM280.32,103.66c-.39-.1-.78.52-.22.43.39.12.66-.45.22-.43ZM280.53,174.79c-.16-.05-.6.7-.22.65.2.35.53-.76.22-.65ZM288.51,168.97c-.18.23-.59.39-.22.65-.07,0,.27-.46.22-.65ZM297.78,102.58c-.52-.06-.59.34,0,.43.34-.06.29-.5,0-.43ZM326.88,111.42c-4.71.46-14.48-.82-14.44,4.53-1.31,9.01-4.36,19.15-6.04,28.02,12.58,3.79,18.69-11.76,22.42-21.34,1.05-2.38,2.98-8.43,3.66-10.35-.41-1.1-2.52-.41-5.6-.86Z"
+            fill="#f4f0eb" />
+        </g>
+        <g id="saturn">
+          <g>
+            <path
+              d="M447.77,300.43l-88.12,50.87-54.82,31.65c-7.25-35.65,8.53-73.48,41.78-92.68,33.25-19.2,73.9-13.96,101.16,10.15Z"
+              fill="#f4f0eb" />
+            <path
+              d="M433.62,440.98c-33.25,19.2-73.9,13.96-101.15-10.15l54.82-31.66,88.11-50.87c7.25,35.65-8.53,73.48-41.78,92.68Z"
+              fill="#f4f0eb" />
+            <path
+              d="M466.28,327.17l.06.1-90.42,52.21-57.13,32.98-.06-.1-1.47.84c-.86-1.32-1.69-2.68-2.5-4.07-2.42-4.19-4.45-8.5-6.11-12.89l148.7-85.85c2.97,3.63,5.69,7.54,8.11,11.73.8,1.39,1.56,2.79,2.27,4.2l-1.46.85Z"
+              fill="#f4f0eb" />
+            <path
+              d="M317.26,413.2l-22.23,12.71c-4.36,1.99-9.66.33-12.11-3.91s-1.24-9.66,2.67-12.44l9.36-5.4,13.71-7.92c-1.65-4.36-2.92-8.81-3.83-13.29l-16.59,9.58-9.36,5.4c-8.86,5.11-13.82,14.42-13.82,23.98,0,4.68,1.19,9.43,3.7,13.77,7.62,13.2,24.56,17.74,37.76,10.12l9.36-5.4,16.59-9.58c-5.72-5.06-10.86-10.95-15.21-17.63ZM511.47,295.56c-7.62-13.2-24.56-17.74-37.75-10.12l-25.95,14.98c3.42,3.02,6.63,6.35,9.59,9.96l23.07-13.32c4.36-2,9.66-.33,12.11,3.91,2.45,4.23,1.24,9.66-2.67,12.44l-22.12,12.9c3.61,7.1,6.14,14.49,7.66,21.98l25.95-14.98c8.86-5.11,13.81-14.42,13.81-23.98,0-4.68-1.19-9.43-3.7-13.77Z"
+              fill="#f4f0eb" />
+            <path
+              d="M457.35,310.39l-148.7,85.85c-1.65-4.36-2.92-8.81-3.83-13.29l54.82-31.65,88.12-50.87c3.42,3.02,6.63,6.35,9.59,9.96Z"
+              fill="#f4f0eb" />
+            <path
+              d="M475.4,348.3l-88.11,50.87-54.82,31.66c-5.72-5.06-10.86-10.95-15.21-17.63l1.47-.84.06.1,57.13-32.98,90.42-52.21-.06-.1,1.46-.85c3.61,7.1,6.14,14.49,7.66,21.98Z"
+              fill="#f4f0eb" />
+          </g>
+        </g>
+        <g id="glasses">
+          <path
+            d="M370.72,309.13c7.64,0,14.29,4.25,17.71,10.52l-.07-.13c2.7-1.35,5.76-2.11,8.98-2.11s6.28.76,8.98,2.11l-.07.13c3.42-6.27,10.07-10.52,17.71-10.52,11.14,0,20.17,9.03,20.17,20.17,0,11.14-9.03,20.17-20.17,20.17-11.14,0-20.17-9.03-20.17-20.17,0-1.91.27-3.77.77-5.52l-.08.28c-2.13-1.13-4.56-1.77-7.15-1.77s-5.01.64-7.15,1.77l-.08-.28c.5,1.75.77,3.61.77,5.52,0,11.14-9.03,20.17-20.17,20.17-11.14,0-20.17-9.03-20.17-20.17,0-11.14,9.03-20.17,20.17-20.17M389.84,322.87c.1.29.19.59.28.89-.09-.3-.18-.59-.28-.89M404.57,323.76c.09-.3.18-.59.28-.89-.1.29-.19.59-.28.89M406.01,320.12c.07-.15.15-.29.23-.43l-.23.43ZM423.97,314.01c8.44,0,15.29,6.85,15.29,15.29s-6.85,15.29-15.29,15.29c-8.44,0-15.29-6.84-15.29-15.29s6.84-15.29,15.29-15.29M370.72,314.01c8.44,0,15.29,6.85,15.29,15.29s-6.85,15.29-15.29,15.29c-8.44,0-15.29-6.84-15.29-15.29s6.84-15.29,15.29-15.29"
+            fill="#ff4340" fill-rule="evenodd" />
+        </g>
+        <g id="cloud">
+          <path
+            d="M313.65,438.96c-8.77,7.23-34.69,24.25-45.48,22.83-25.8-1-49.73-15.77-66.91-32.38-5.88-2.51-11.55,1.35-18.58-.2-20.54-.67-40.58-12.45-56.18-26.32-12.3-8.43-18.7-25.8-20.14-38.47-2.95-6.6-10.49-6.49-16.79-7.72-3.93-.81-7.88-2.23-11.52-3.34-11.96-3.59-22.35-9.7-33.03-16.65-1.31-3.97-5.46-7.86-8.24-11.19-12.2-20.85-7.59-46.01-1-68.22,1-4.81,3.92-6.67,7.05-10.63,2.56-3.35,3.92-6.67,6.21-9.11,9.05-8.81,21.08-7.44,31.61-10.56,6.43-.33,7.52-8.26,11.19-11.92,3.58-4.35,8.57-5.76,11.86-10.13,7.71-7.98,18.72-10.46,29.81-10.52,16.7-1.08,28.32,9.14,38.61,21.31,15.63,23,11.43,13.85,35,6.43,20-3.6,40.97-5.7,60.04,3.49,16.45,9.27,30.98,23.62,39.39,40.45,11.11,19.98,9.76,30.26,7.47,50.72-.84,6.92,7.67,9.7,9.64,15.95,10.2,9.79,13.45,20.2,19.06,34.01.98,2.07.15,3.59.53,5.67,4.04,10.51-2.83,18.76-5.69,29.15-2.19,6.95-3.78,12.86-8.84,18.15-5.98,7.61-8.8,11.86-15.08,19.18Z"
+            fill="#f4f0eb" />
+        </g>
+        <g id="dinosaur">
+          <path
+            d="M439.16,567.87c-2.17-.86-4.6-.19-6.72.68-5.47,2.36-11.09,4.82-10.25,8.68,1.7,6.45,15.03,12.79,21.33,13.74,7.98,1.14,6.47-7.21,1.46-16.61-1.57-2.99-3.44-5.55-5.67-6.43l-.15-.06ZM434.39,550.98c.21-.9-.8-1.42-1.6-1.22-.9.26-3.2,1.59-3.5,2.39.56.77,4.62-.21,5.04-1.05l.06-.12ZM413.69,412.75c3.13-2.06,5.92-4.32,8.4-5.99,6.29-4.38,12.62-2.38,20.52-2.44,2.18.02,4.38-.06,6.53-.19,10.49-1.23,25.62.37,29.6,9.61,2.17,4.72.63,10.52-3.01,14.14-3.19,3.27-7.47,5.2-11.4,7.27-3.13,1.61-6.85,3.48-10.44,4.79-2.89.89-15.34,4.68-5.46,5.29,5.6-.49,11.36-.55,16.95-.98,4.48-.5,10.36-.17,10.85,5.52-.23,12.96-14.89,17.69-26.54,20.9-5.64,1.29-10.72,3.9-11.35,10.22-1.31,10.9,1,21.96,2.27,32.62.8,5.76,1.29,12.93,4.78,17.54,3.33,4.03,7.75,1.58,12.04.26,10.41-4.12,17.71-.42,25.19,7.58,4.05,4.66,9.52,10.76,10.52,17.33.2,3.12-2.62,6.96-5.35,7.56-2.15.51-4.71-2.14-7.07-4.43-3.67-3.79-8.08-6.2-12.28-9.3-1.34-.97-2.68-1.97-4.16-2.68-4.85-2.59-12.2.31-8.66,5.97,6.55,7.89,15.62,19.98,13.7,29.94-.53,3.41-3.02,6.03-3.99,9.23-.97,2.92-1.45,6.07-3.43,8.64-7.18,8.12-6.56,12.05-18.6,14.4-5.25,1.29-10.65.79-14.84-2.77-5.32-4.17-11.18-10.83-15.52-15.29-2.25-2.34-4.25-4.49-6.08-7.03-2.93-3.65-4.55-8.61-8.26-11.37-2.51-1.5-6.22-1.26-8.78.2-5.35,3.44.05,10.66-.96,15.75-.34,5.46-3.53,11.4-3.01,16.86.42,5.44,4.5,9.76,8.46,13.29,3.31,2.9,7.22,5.09,11.59,5.72,5.12.81,10.64-.3,16.3.43,4.23.55,11.82,2.11,9.78,7.78-1.28,5.95-6.98,6.34-10.55,10.53-1.38,1.72-2.16,3.78-4.01,5.1-2.64,1.97-8.67,3.27-13.14,3.79-8.48,1.52-11.95-5.23-17.42-10.18-6.57-5.3-10.52-12.37-16.45-18.47-8.2-8.47-12.87-10.25-12.79-21.73-.53-9.35-6.91-15.25-15.94-10.8-57.37,24.04-106.44,108.5-174.89,100.9-.16-.26.02-.57.49-.93,1.03-.74,2.4-1.29,3.63-1.84,4.77-2.06,10.05-4.5,15.61-7.27,22.96-11.53,47.36-26.21,66.34-43.17,6.67-6.03,12.11-12.18,18.25-18.56,27.57-28.86,44.22-65.29,66.48-97.51,2.45-3.42,5.3-6.73,8.68-9.47,17.43-15.69,55.09-10.3,61.32-20.17,1.13-2.13.4-5.37-.42-7.85-8.32-25.41-25.23-61.89.28-74.86,1.97-1.19,4.05-2.45,6.05-3.79"
+            fill="#f4f0eb" fill-rule="evenodd" />
+        </g>
+        <g id="tree">
+          <polygon
+            points="260.48 325.87 184.6 366.99 168.54 431.97 127.35 417.19 157.03 355.41 113.29 275.4 144.09 264.43 168.29 337.5 182.26 280.45 214.23 296.39 189.34 343.81 244.34 298.96 260.48 325.87"
+            fill="#ff4340" />
+        </g>
+        <g id="flower">
+          <path
+            d="M114.6,267.99s-36.45-30.82-21.61-43.27c14.84-12.44,32.45,11.55,27.09,39.2,0,0,4.5-37.27,22.47-37.78,17.96-.5,16.68,28.1-15,44.49,0,0,38.51-18.61,44.8-1.6,6.28,17.01-37.64,25.95-50.26,3.38,0,0,26.64,37.82-2.25,41.88-28.89,4.05-4.79-42.64-4.79-42.64,0,0-29.04,33.82-41.9,12.85-12.85-20.97,11.74-28.96,41.46-16.52Z"
+            fill="#ff4340" />
+        </g>
+        <g id="rainbow">
+          <g>
+            <path
+              d="M172.28,554.86s-5.53-61.76,32.25-63.35c49.41-2.08,40.83,62.65,40.83,62.65h-13.72s2.4-50.54-25.05-50.88c-24.36-.31-21.62,51.58-21.62,51.58h-12.7Z"
+              fill="#ff4340" />
+            <path
+              d="M190.25,555.56s-1.72-44.96,16.26-45.72c23.51-.99,18.26,45.03,18.26,45.03h-10.64s-.34-31.15-7.21-32.19c-6.45-.98-5.49,32.88-5.49,32.88h-11.19Z"
+              fill="#ff4340" />
+          </g>
+        </g>
+        <g id="heart">
+          <path
+            d="M298.01,423.47c6.03-13.57,16.08-23.62,27.64-23.62,13.9,0,23.96,12.9,23.96,23.62,0,29.15-26.3,45.07-41.72,56.79-5.53,4.19-8.21,6.7-10.39,6.7-1.68,0-4.52-2.68-9.88-6.7-15.25-11.73-41.71-27.31-41.71-56.12,0-8.38,7.04-22.62,20.1-22.62,15.08,0,32,21.95,32,21.95Z"
+            fill="#ff4340" />
+        </g>
+        <g id="book">
+          <g>
+            <g>
+              <polygon
+                points="551.47 331.81 300.33 476.81 49.19 331.81 49.19 621.8 300.33 766.8 551.47 621.8 551.47 331.81"
+                fill="#f4f0eb" />
+              <path
+                d="M300.33,778.85c-2.08,0-4.16-.54-6.02-1.61l-251.14-145c-3.73-2.15-6.02-6.13-6.02-10.43v-289.99c0-4.3,2.3-8.28,6.02-10.43s8.32-2.15,12.05,0l245.12,141.52,245.12-141.52c3.73-2.15,8.32-2.15,12.05,0,3.73,2.15,6.02,6.13,6.02,10.43v289.99c0,4.3-2.3,8.28-6.02,10.43l-251.14,145c-1.86,1.08-3.94,1.61-6.02,1.61ZM61.23,614.85l239.09,138.04,239.09-138.04v-262.17l-233.07,134.56c-3.73,2.15-8.32,2.15-12.05,0L61.23,352.68v262.17Z"
+                fill="#f4f0eb" />
+            </g>
+            <g>
+              <path
+                d="M406.45,481.37c11.7-.94,12.41,16.85,11.95,24.81-.99,17.19-8.04,32.04-23.59,40.36-12.38,6.62-17.14-1.43-18.31-12.93-1.26-12.28,1.23-26.86,8.47-36.99,4.14-5.8,14.16-14.65,21.48-15.24ZM400.94,498.6c-2.7.33-5.99,3.5-7.57,5.59-4.35,5.75-6.82,15.69-5.11,22.74,1.96,8.07,8.3,4.67,12.5.66,4.77-4.55,6.54-9.88,6.73-16.42.12-4.09-.66-13.29-6.55-12.57Z"
+                fill="#ff4340" />
+              <path
+                d="M404.11,576.4c9.21-.74,11.41,10.34,11.86,17.36,1.24,19.55-6.2,38.63-24.18,47.84-19.75,10.12-18.83-19.25-16.9-30.67,2.01-11.87,7.55-21.6,17.22-28.79,3.3-2.45,7.82-5.41,12-5.74ZM399.01,593.53c-4.05.26-8.2,5.47-9.99,8.77-2.97,5.48-5.29,15.63-2.41,21.42,2.14,4.3,5.67,3.09,8.93.91,7.49-5,9.96-12.49,9.51-21.29-.18-3.44-1.47-10.1-6.04-9.81Z"
+                fill="#ff4340" />
+              <path
+                d="M434.22,503.88c-.23.88-.24,1.8-.2,2.7.16,3.85.11,7.68.3,11.53s.5,4.29-2.66,6.31c-1.9,1.22-4.57,2.72-6.65,3.55s-2.85.9-3.13-1.6c-.25-2.24-.11-4.6-.1-6.83.04-12.46.77-24.87.71-37.34-.01-2.74-.46-9.48,1.32-11.62.63-.75,2.25-1.4,3.15-1.95,5.19-3.17,10.68-7.09,16.41-9.2,9.63-3.54,12.06,1.61,11.66,10.43-.35,7.63-2.75,13.74-6.69,20.13-.61.99-1.95,2.36-1.96,3.53-.01,1.25,1.75,3.05,2.47,4.14,2.01,3.04,4.45,7.4,5.89,10.73.57,1.32,1.02,1.75-.17,2.83-1.6,1.45-7.3,4.69-9.37,5.52-1.4.56-1.86.28-2.83-.78-3.06-3.35-4.75-8.76-7.7-11.78-.08-.08-.33-.4-.46-.3ZM434.93,489.8c.21.03.38-.01.58-.08,4.84-1.61,7.37-8.79,7.58-13.43.06-1.35.07-3.79-1.79-3.83-1.46-.03-5.27,1.58-6,2.87-.06.1-.37.81-.37.86v13.62Z"
+                fill="#ff4340" />
+              <path
+                d="M445.31,553.35c5.72-.55,7.05,3.15,7.27,8.07.35,7.95-2.22,15.87-6.29,22.59-.5.82-2.57,3.55-2.49,4.33.03.27,1.43,2.48,1.69,2.91,2.17,3.57,4.57,7.02,6.28,10.85.26.59.85,1.84.96,2.41.15.76-.82,1.41-1.36,1.82-1.92,1.45-6.67,4.32-8.88,5.1-1.28.45-1.83.09-2.68-.84-2.9-3.16-4.46-7.7-7.14-11.02-.25-.31-.93-1.34-1.02-.52-.55,5.02.1,10.93.21,16.01.02,1.02.05,1.63-.62,2.45-1.16,1.44-7.3,4.63-9.18,5.3-1.27.45-2.26.64-2.55-1.02-.3-10.6.12-21.16.3-31.73.1-5.65-.1-11.39.1-17.03.06-1.79.3-6.28,1.49-7.58.59-.65,1.86-1.1,2.62-1.56,5.7-3.42,14.69-9.93,21.27-10.56ZM432.38,584.63c2.06-.33,3.92-2.08,5.08-3.74,1.84-2.62,3.95-9.22,2.92-12.27-.67-1.99-2.79-1.14-4.23-.56-.75.3-2.76,1.29-3.21,1.89-.73.97-.4,3.22-.46,4.44-.13,2.85-.21,5.27-.1,8.15.03.7-.03,1.4,0,2.1Z"
+                fill="#ff4340" />
+              <path
+                d="M469.3,561.07c.29.05.47-.04.72-.15,1.44-.62,3.13-2.08,4.55-2.89,1.08-.62,2.01-1.18,2.47.44.29,1.03.38,3.05.42,4.17s.14,3.17-.31,4.19c-.66,1.48-5.23,3.69-6.77,4.76-1.25.87-1.31,1-1.4,2.58-.1,1.69-.11,4.14,0,5.82.03.4.1.78.22,1.16l.48-.06,7.4-3.89c.27.05.42.81.46,1.07.29,1.64-.06,3.25-.1,4.88-.04,1.84.29,5.3-.23,6.91-.28.88-2.39,2.35-3.2,2.92-4.14,2.89-9.06,5.23-13.46,7.75-.63.36-2.88,1.93-3.43,1.84-1.01-.18-.85-2.93-.89-3.71-.34-6.58.07-13.21.2-19.79.17-9.13-.2-18.31.11-27.43.06-1.75-.11-4.62.69-6.14,1.09-2.05,3.51-2.79,5.39-3.89,4.04-2.37,7.94-5.06,12.17-7.11.42-.2,1.65-.89,2.04-.71.49.22.55,1.15.61,1.63.3,2.41.51,8.21-.05,10.45-.67,2.7-4.51,3.64-6.61,4.92-1.59.96-1.14,1.18-1.3,2.78-.03.35-.19.65-.21,1.02-.12,2.12.09,4.35,0,6.48Z"
+                fill="#ff4340" />
+              <path
+                d="M340.45,517.98c1.21-.16,1.48.29,1.73,1.38.46,2.06.85,7.17.05,9.07-1.45,3.44-10.54,4.32-11.11,9.5s7.44,6.81,10.58,9.66c5.7,5.17,2.96,17.08.19,23.24-2.93,6.5-9.68,15.51-17.9,13.44-1-.25-3.63-1.47-4.36-2.17-.49-.47-.18-1.06-.04-1.64.52-2.03,2.99-8.81,4.21-10.27.52-.62.79-.78,1.61-.71,2.13.19,3.25,1.22,5.4-.24,1.89-1.28,4.02-4.22,2.56-6.5-.78-1.22-3.53-3.49-4.75-4.43-4.29-3.31-8.17-4.29-9.14-10.44-1.6-10.15,5.99-21.72,14.36-26.89,1.38-.85,5.09-2.79,6.6-2.99Z"
+                fill="#ff4340" />
+              <path
+                d="M338.72,613.01c1.02-.12,1.19,1.66,1.32,2.4.3,1.79.44,3.97.33,5.78-.13,2.37-.37,3.01-2.35,4.28-3.14,2-11.53,4.85-8.6,9.94,1.97,3.42,8.03,4.76,10.85,8.02,4.42,5.1,2.27,15.25-.05,20.95-3.39,8.32-11.9,19.42-21.94,13.18-.36-.22-1.14-.63-1.17-1.09l3.39-9.37c.34-.73,1.1-2.35,1.92-2.57,1.06-.28,1.7.24,2.62.35,3.03.36,6.23-2.09,6.56-5.15.17-1.63-.76-2.41-1.82-3.46s-2.46-2.31-3.63-3.21c-3.99-3.1-7.45-3.72-8.71-9.45-2.21-10.1,6.01-22.65,14.44-27.66,1.42-.84,5.32-2.78,6.84-2.96Z"
+                fill="#ff4340" />
+              <path
+                d="M488.25,434.84c.24-.03.48.06.58.29.29.65-.42,3.54-.61,4.38-2.22,10.1-5.76,19.85-8.57,29.78-.56,1.97-1.56,4.95-1.77,6.9-.36,3.2.02,7.56,0,10.91s-.16,6.57-.15,9.84c-.1.49-.56.89-.93,1.22-1.67,1.47-6.8,4.49-8.89,5.29-1.11.42-1.53.28-1.82-.9-.56-2.29-.36-5.73-.26-8.12.19-4.38.84-8.75.29-13.13-2.78-6.81-4.94-14.01-7.78-20.78-.61-1.45-2.69-5.06-2.65-6.38.01-.41.21-.8.46-1.12.61-.81,3.44-2.48,4.45-3.1,1.78-1.07,4.17-2.5,6.03-3.35.65-.3,1.4-.78,2.02-.14.35.37.77,1.87.94,2.43,1.34,4.55,1.92,9.33,2.99,13.94.03.13.08.3.25.26.14-.03.72-2.02.82-2.35,2.03-6.64,3.23-13.51,5.11-20.19,1.46-1.38,3.27-2.45,5.01-3.45.9-.52,3.64-2.14,4.5-2.25Z"
+                fill="#ff4340" />
+              <path
+                d="M347.43,528.35c-.11-.32-.23-.65-.29-.98-.47-2.48-.34-6.95-.24-9.56.03-.67.07-1.91.24-2.52.26-.95,1.6-1.88,2.39-2.41,1.35-.9,2.86-1.55,4.24-2.39,5.31-3.18,10.45-6.66,15.91-9.59.96-.52,2.1-1.19,3.09-1.6s1.34-.66,1.62.59c.57,2.47.37,7.04.25,9.64-.06,1.31.16,2.67-.67,3.82s-4.49,2.69-5.85,3.64c-.14.1-.38.22-.48.34-.15.19-.23,1.15-.25,1.48-.3,5.24.03,10.56,0,15.82-.02,6.51-.38,13.08-.42,19.57-.01,1.94.52,5.86-.66,7.4-1.5,1.96-6.22,3.85-8.52,5.04-1.05.54-2.25,1.77-2.73-.23-.51-2.13-.2-5.5-.13-7.73.31-10,.51-19.98.61-29.99.01-1.04.19-2.1.11-3.16-.03-.34-.06-.98-.36-1.14-.43-.04-3.98,2.35-4.68,2.74-.98.55-2.05,1.27-3.22,1.19Z"
+                fill="#ff4340" />
+              <path
+                d="M371.78,594.02c.7,2.05.59,4.23.62,6.37.03,1.97.15,4.13-.11,6.1-.15,1.14-.37,1.84-1.32,2.56-1.59,1.2-3.95,2.09-5.64,3.23-.17.1-.23.26-.26.45-.31,2,.47,4.65-.01,6.72.05,8.4-.27,16.81-.31,25.19-.02,3.11.33,6.41,0,9.49-.15,1.39-.25,1.92-1.32,2.86-1.75,1.52-4.02,2.38-6.02,3.46-.85.46-2.93,2.06-3.8,1.87s-.93-1.96-.99-2.68c-.21-2.61,0-5.25.1-7.85.17-4.35.36-8.71.41-13.05.08-6.41-.15-12.83.1-19.23-.39-.07-.66.13-.99.29-1.82.89-3.59,2.53-5.47,3.3-.95.39-1.78.64-1.91-.68-.3-3.17.23-6.79,0-10,.25-.72-.03-1.64.13-2.32.29-1.27,5.11-3.65,6.33-4.38,5.87-3.52,11.71-7.58,17.82-10.64.38-.19,2.38-1.25,2.64-1.06Z"
+                fill="#ff4340" />
+            </g>
+            <g>
+              <path
+                d="M568.1,466.11l-.69,98.5s-63.64,15.85-65.56-11.63c-1.38-19.84,53.13-21.89,53.13-21.89,0,0-56.58,2.75-56.58-12.31,0-16.42,51.06-15.05,51.06-15.05,0,0-48.99-2.05-48.99-16.42,0-21.9,67.63-21.2,67.63-21.2Z"
+                fill="#ff4340" />
+              <path d="M582.92,592.37s-56.58,2.75-56.58-12.31c0-16.42,51.06-15.05,51.06-15.05l5.52,27.36Z"
+                fill="#ff4340" />
+            </g>
+            <g>
+              <path
+                d="M33.8,466.11l.69,98.5s63.64,15.85,65.56-11.63c1.38-19.84-53.13-21.89-53.13-21.89,0,0,56.58,2.75,56.58-12.31,0-16.42-51.06-15.05-51.06-15.05,0,0,48.99-2.05,48.99-16.42,0-21.9-67.63-21.2-67.63-21.2Z"
+                fill="#ff4340" />
+              <path d="M18.97,592.37s56.58,2.75,56.58-12.31c0-16.42-51.06-15.05-51.06-15.05l-5.52,27.36Z"
+                fill="#ff4340" />
+            </g>
+          </g>
+        </g>
+      </svg>
+      </svg>
+    </div>
+  </section>
+
+  <section class="expanding-image-section">
+    <div class="expanding-image" id="expandingImg" style="background-image: url('assets/images/books-landscape.jpg');">
+    </div>
+    <div class="about-intro-text">
+      <h2>Our Mission</h2>
+      <p>Add your intro text here about The Story Store's mission...</p>
+    </div>
   </section>
 
   <!-- About Section -->
   <section id="about">
-    <div class="text">
-      <h2>About us</h2>
-      <p>Story Store aims to collect excellent condition, 2nd-hand children's books and then make them available, for free, to school libraries that are under-resourced, thereby improving access by ALL tamariki to books that they WANT to read.</p>
+
+    <div class="about-section-item">
+      <div class="about-text">
+        <h3>Origin</h3>
+        <p>Who would have guessed that a chance comment made during morning tea break would determine the path my life
+          would take when I retired. The idea for Story Store was born when I was asked whether there was anywhere you
+          could take books you didn't want but that school libraries might. With my retirement looming large on the
+          horizon, I was excited but also a little apprehensive as to how I would fill my time. And here it was…the
+          answer. From that moment things moved quickly. By the end of January 2023 shelving was being installed in our
+          premises at EPIT (Education Partnership & Innovation Trust) in Onehunga.</p>
+        <p>Since our very first visit from St Mary's School in Avondale in March 2023 we have happily donated nearly
+          5,000
+          books to 41 schools from the Hokianga to Porirua, and impacted over 10,000 children!!</p>
+      </div>
+      <div class="about-image" style="background-image: url('assets/images/story-store-shelf.jpg');"></div>
     </div>
-    <img src="assets/images/books-hero.jpg" alt="Books">
+
+    <div class="about-section-item reverse">
+      <div class="about-text">
+        <h3>Who is eligible</h3>
+        <p>Obviously, we cannot help everyone so we have three criteria for schools to meet: Firstly, there must be a
+          need
+          for fresh books in the library - an insufficient budget. Secondly, school management must be inherently 'pro
+          Library'... ie they won't take away what budget the library does have to use it elsewhere in the school.
+          Thirdly... and most importantly, there needs to be someone passionate about books/reading leading the Library
+          space. It's these wonderful humans who engage students, who connect them with their next (even though they
+          don't
+          know it at the time) favourite book.</p>
+        <p>Geographically speaking we help schools in the North Island. This is due to exorbitant freight costs. The
+          aforementioned freight cost is also the reason the limits for online orders are different.</p>
+      </div>
+      <div class="about-image" style="background-image: url('assets/images/story-store-shelf_2.jpg');"></div>
+    </div>
+
+    <div class="about-section-item">
+      <div class="about-text">
+        <h3>How we work</h3>
+        <p>Story Store works best when we have stock turning over - it's all about 'books in' and 'books out'. 'Books
+          in'
+          are the donations of immaculate books that we receive from individuals or through schools holding book drives
+          for us. Books must be pristine because library books lead a hard life so need to start out in excellent
+          condition. AND it sends a subliminal message to the children that they are worthy of nice books!</p>
+        <p>When we receive a donation the books are sorted into 'A' and 'B' depending on their condition. The best of
+          the
+          best are 'A' - these are catalogued then shelved. The 'B' grade books have some small defect eg a name written
+          on the end papers. These ones are not catalogued and if a school selects them, they know and understand about
+          the defect.</p>
+        <p>'Books out' is when schools visit us to select books. This often proves to be an overwhelming task because
+          there are so many books to choose from. We get around this by having 'specials' - just like a shop except
+          absolutely NO MONEY changes hands! If a school were to take advantage of all the specials plus their quota of
+          50
+          books from both 'A' and 'B' grade areas, they may well take away over 200 books. If we were to put a dollar
+          value on that, it would be somewhere in the vicinity of $3,000.</p>
+      </div>
+      <div class="about-image" style="background-image: url('assets/images/books-hero.jpg');"></div>
+    </div>
+
   </section>
 
   <!-- Map Section -->
   <section id="map-section">
-    <h2>Schools We’ve Helped</h2>
+    <div class="map-text">
+      <h2>Schools We've Helped</h2>
+      <p>Since March 2023, we've donated nearly 5,000 books to 41 schools from the Hokianga to Porirua, impacting over
+        10,000 children across the North Island.</p>
+      <p>Click on the map to explore the schools we work with.</p>
+    </div>
     <div id="map"></div>
   </section>
 
-
   <!-- News Section -->
-  <section id="news">
+  <!--<section id="news">
     <h2>Latest News</h2>
     <iframe src="https://storystore.athenaeum.nz" title="Story Store Blog"></iframe>
+  </section>-->
+  <section id="news">
+    <h2>Latest News</h2>
+    <div class="news-posts">
+      <article class="news-item">
+        <h3><a href="https://storystore.athenaeum.nz/post/your-latest-post">Post Title Here</a></h3>
+        <p class="news-date">March 15, 2024</p>
+        <p>Brief excerpt or summary of the post...</p>
+      </article>
+      <article class="news-item">
+        <h3><a href="https://storystore.athenaeum.nz/post/another-post">Another Post Title</a></h3>
+        <p class="news-date">March 10, 2024</p>
+        <p>Brief excerpt...</p>
+      </article>
+      <!-- Add 2-3 more recent posts -->
+    </div>
+    <p><a href="https://storystore.athenaeum.nz" class="view-all">View all news →</a></p>
+  </section>
+  <!-- Instagram Section -->
+  <section id="instagram">
+    <div class="instagram-text">
+      <h2>Follow us on Instagram</h2>
+      <p>See the latest posts from our community and our projects in action.</p>
+    </div>
+    <div class="instagram-feed">
+      <!-- Replace these URLs with your actual Instagram post URLs -->
+      <blockquote class="instagram-media"
+        data-instgrm-permalink="https://www.instagram.com/p/DK_Bk9nyNMh/?hl=en&img_index=1" data-instgrm-version="14">
+      </blockquote>
+      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DI4zvxPyIhC/?hl=en/"
+        data-instgrm-version="14"></blockquote>
+      <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/Cvapy8wSs1h/?hl=en/"
+        data-instgrm-version="14"></blockquote>
+    </div>
   </section>
 
-  <!-- Footer with geometric pattern -->
+  <!-- Instagram embed script -->
+  <script async defer src="//www.instagram.com/embed.js"></script>
+
+  </section>
+  <!-- Footer -->
   <footer>
-    <div class="footer-pattern">
-      <svg viewBox="0 0 200 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <!-- First row of cubes -->
-      </svg>
-    </div>
-
-    <div class="footer-content">
-      &copy; The Story Store – Follow us on 
-      <a href="https://instagram.com" target="_blank">Instagram</a>
-    </div>
+    &copy; The Story Store - Follow us on
+    <a href="https://www.instagram.com/storystore.org.nz/?hl=en" target="_blank">Instagram</a>
   </footer>
-<script>
-  // Initialize map centered on Auckland
-  var map = L.map('map').setView([-36.8485, 174.7633], 11); // Auckland coords
 
-  // Add OpenStreetMap tiles
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-  }).addTo(map);
+  <script>
 
-  // Example school pins (replace with real data)
-  var schools = [
-    { name: "School A", coords: [-36.85, 174.76] },
-    { name: "School B", coords: [-36.87, 174.75] },
-    { name: "School C", coords: [-36.83, 174.78] }
-  ];
+    // Hero about button fade on scroll
+    window.addEventListener('scroll', function () {
+      const aboutBtn = document.querySelector('.hero-about-btn');
+      if (aboutBtn) {
+        if (window.scrollY > 100) {
+          aboutBtn.classList.add('scrolled');
+        } else {
+          aboutBtn.classList.remove('scrolled');
+        }
+      }
+    });
 
-  // Add markers
-  schools.forEach(function(school) {
-    L.marker(school.coords).addTo(map)
-      .bindPopup("<b>" + school.name + "</b>");
-  });
-</script>
+    // Expanding image on scroll
+    const expandingImg = document.getElementById('expandingImg');
+    if (expandingImg) {
+      window.addEventListener('scroll', function () {
+        const rect = expandingImg.getBoundingClientRect();
+        const scrollProgress = Math.max(0, Math.min(1, (window.innerHeight - rect.top) / window.innerHeight));
+
+        if (scrollProgress > 0 && scrollProgress < 1) {
+          const width = 60 + (scrollProgress * 40); // 60% to 100%
+          expandingImg.style.width = width + '%';
+        }
+      });
+    }
+    // Initialize map centered on Auckland
+    var map = L.map('map').setView([-36.8485, 174.7633], 11);
+
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    //  School pins
+    var schools = [
+      { name: "St Mary's Catholic School, Avondale", coords: [-36.901769, 174.694193] },
+      { name: "Waatea School, Māngere", coords: [-36.960716, 174.802431] },
+      { name: "Kelston Girls' College, Kelston", coords: [-36.906505, 174.664083] }
+    ];
+
+    schools.forEach(function (school) {
+      L.marker(school.coords).addTo(map)
+        .bindPopup("<b>" + school.name + "</b>");
+    });
+
+
+
+    // Map scroll control
+    const mapElement = document.getElementById('map');
+    if (mapElement) {
+      mapElement.addEventListener('mouseenter', function () {
+        this.classList.add('active');
+      });
+
+      mapElement.addEventListener('mouseleave', function () {
+        this.classList.remove('active');
+      });
+    }
+  </script>
 
 </body>
+
 </html>
