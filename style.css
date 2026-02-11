@@ -83,7 +83,8 @@ nav .dropdown {
 /* Dropdown menu */
 nav .dropdown-menu {
     position: absolute;
-    top: calc(100% - 4px); /* pulls the dropdown closer */
+    top: calc(100% - 4px);
+    /* pulls the dropdown closer */
     left: 0;
     display: none;
     background: var(--white);
@@ -95,7 +96,7 @@ nav .dropdown-menu {
     border-radius: 8px;
     overflow: hidden;
 
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     z-index: 1000;
 }
 
@@ -148,8 +149,9 @@ nav .dropdown-menu a:hover {
 #origin,
 #eligible,
 #howwework,
-#schoolshelped {
-    scroll-margin-top: 150px; /* adjust slightly larger than header height */
+#schoolshelped #testimonials {
+    scroll-margin-top: 150px;
+    /* adjust slightly larger than header height */
 }
 
 
@@ -312,7 +314,7 @@ nav .dropdown-menu a:hover {
 }
 
 .story-bullets {
-    list-style: none; 
+    list-style: none;
     padding-left: 0;
     margin-left: 0;
     font-family: 'Montserrat', sans-serif;
@@ -323,41 +325,93 @@ nav .dropdown-menu a:hover {
 
 .story-bullets li {
     position: relative;
-    padding-left: 2rem; 
+    padding-left: 2rem;
     margin-bottom: 0.75rem;
 }
 
 .story-bullets li::before {
-    content: "•"; /* bullet mark */
+    content: "•";
+    /* bullet mark */
     color: var(--story-red);
     position: absolute;
     left: 0;
     top: 0;
-    font-size: 1.5rem; /* bigger bullet */
+    font-size: 1.5rem;
+    /* bigger bullet */
     line-height: 1;
 }
 
 .highlight-number {
-    background: var(--story-blue-light);
+    /*background: var(--story-blue-light);
     padding: 0.15em 0.35em;
-    border-radius: 4px;
-    font-weight: 700; 
+    border-radius: 4px; */
+    font-weight: 700;
     color: var(--story-grey);
 }
 
 /* Default body text link */
 .body-link {
-    text-decoration: none;
+    color: var(--story-blue-dark);
+    text-decoration: underline;
+    text-decoration-color: var(--story-blue-dark);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
     font-weight: 600;
-    border-bottom-color: var(--story-red);
-    border-bottom: 2px solid transparent;
-    transition: color 0.2s ease, border-color 0.2s ease;
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
 }
 
-/* Hover state — optional underline + lighter red */
+/* Hover state  */
 .body-link:hover {
-    color: var(--story-red);
-    
+    color: #1a1f5a;
+    text-decoration-thickness: 3px;
+    text-decoration-color: var(--story-blue-light);
+}
+
+/* Tooltip on hover */
+.body-link[data-tooltip]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    background: var(--story-blue-dark);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    white-space: nowrap;
+    font-size: 0.9rem;
+    font-weight: 500;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Tooltip arrow */
+.body-link[data-tooltip]::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(2px);
+    border: 6px solid transparent;
+    border-top-color: var(--story-blue-dark);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    z-index: 101;
+}
+
+.body-link[data-tooltip]:hover::after,
+.body-link[data-tooltip]:hover::before {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
 }
 
 .text-highlight {
@@ -410,82 +464,88 @@ nav .dropdown-menu a:hover {
 }
 
 .about-video {
-  width: 100%;
-  height: 500px;
-  overflow: hidden;
-  border-radius: 150px 0 0 0;
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+    border-radius: 150px 0 0 0;
 }
 
 .about-video video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* fills container without distortion */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* fills container without distortion */
 }
 
 /* --- Carousel Section --- */
 #helped-carousel {
-  padding: 4rem 6rem;
-  text-align: center;
+    padding: 4rem 6rem;
+    text-align: center;
 }
 
 #helped-carousel h3 {
-  font-size: 2.5rem;
-  color: var(--story-red);
-  margin-bottom: 2rem;
+    font-size: 2.5rem;
+    color: var(--story-red);
+    margin-bottom: 2rem;
 }
 
 /* Outer wrapper */
 .carousel-container {
-  position: relative;
-  overflow: hidden;
-  width: 100%;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
 }
 
 /* Horizontal strip */
 .carousel-track {
-  display: flex;
-  gap: 1rem;
-  transition: transform 0.4s ease;
+    display: flex;
+    gap: 1rem;
+    transition: transform 0.4s ease;
 }
 
 /* Images */
 .carousel-track img {
-  width: 220px;
-  height: 350px;
-  object-fit: cover;
-  border-radius: 12px;
-  flex-shrink: 0;
+    width: 220px;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 12px;
+    flex-shrink: 0;
 }
 
 /* Buttons */
 .carousel-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  border: none;
-  background: rgba(255, 255, 255, 0.8);
-  padding: 0.5rem 1rem;
-  font-size: 2rem;
-  cursor: pointer;
-  border-radius: 8px;
-  color: var(--story-red);
-  z-index: 10;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 0.5rem 1rem;
+    font-size: 2rem;
+    cursor: pointer;
+    border-radius: 8px;
+    color: var(--story-red);
+    z-index: 10;
 }
 
 .carousel-btn:hover {
-  background: var(--story-red);
-  color: white;
+    background: var(--story-red);
+    color: white;
 }
 
-.carousel-btn.prev { left: 10px; }
-.carousel-btn.next { right: 10px; }
+.carousel-btn.prev {
+    left: 10px;
+}
+
+.carousel-btn.next {
+    right: 10px;
+}
 
 /* Mobile full-width */
 @media (max-width: 768px) {
-  .carousel-track img {
-    width: 160px;
-    height: 120px;
-  }
+    .carousel-track img {
+        width: 160px;
+        height: 120px;
+    }
 }
 
 /* --- News Section --- */
