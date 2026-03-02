@@ -22,7 +22,7 @@ a {
     color: inherit;
 }
 
-/* --- Sticky Header with Strong Contrast (No JS needed!) --- */
+/* --- Sticky Header --- */
 header {
     position: sticky;
     top: 0;
@@ -85,6 +85,7 @@ header img {
 /* Navigation */
 .main-nav {
     display: flex;
+    align-items: center; 
     gap: 2rem;
     flex-grow: 1;
 }
@@ -167,6 +168,44 @@ header img {
     color: var(--story-red);
     border-left-color: var(--story-red);
     padding-left: 1.5rem;
+}
+
+/* Search form */
+.nav-search {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+}
+
+ .nav-search input {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--story-red);
+    border-right: none;
+    border-radius: 50px 0 0 50px;
+    outline: none;
+    font-size: 0.95rem;
+}
+
+.nav-search button {
+    padding: 0.5rem 1rem;
+    border: 2px solid var(--story-red);
+    border-left: none;
+    background: var(--story-red);
+    color: var(--white);
+    border-radius: 0 50px 50px 0;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.nav-search button:hover {
+    background: var(--hover-pink);
+}
+/* Hide on mobile */
+@media (max-width: 768px) {
+    .nav-search {
+        display: none;
+    }
 }
 
 /* Donate Button */
@@ -323,10 +362,28 @@ header img {
 
 .about-image {
     width: 100%;
-    height: 500px;
+    height: 35vw;   /* scales with screen width */
+    max-height: 500px;
     background-size: cover;
-    background-position: center;
+    background-position: center 20%; /* favour the top of portrait images */
     border-radius: 150px 0 0 0;
+    transition: height 0.3s ease;
+
+}
+
+/* Medium devices — give more height so portrait images aren't squished */
+@media (max-width: 1100px) and (min-width: 769px) {
+    .about-image {
+        height: 90vw;
+        max-height: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-image {
+        height: 75vw;   /* tall crop — portrait images look natural */
+        max-height: 480px;
+    }
 }
 
 .story-bullets {
@@ -761,7 +818,7 @@ footer a:hover {
     
     .about-section-item,
     .about-section-item.reverse {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         padding: 2rem 1.5rem;
         gap: 2rem;
         direction: ltr;
