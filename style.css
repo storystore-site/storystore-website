@@ -1,13 +1,19 @@
 :root {
     --story-grey: #58595B;
-    --story-red: #FF4441;
+    --story-red: #DE3A3A;
     --white: #F4F0EB;
     --bright-accent: #FFD166;
     --hover-pink: #FF8FA3;
     --story-blue-light: rgb(185 235 227);
     --story-blue-dark: #252c7c;
+    --page-pad: clamp(1.5rem, 5vw, 5rem);
 }
 
+/* ============================================
+   FIX 1: overflow-x hidden stops horizontal
+   scroll on iPhone. min-width: 0 lets flex
+   children shrink below their content size.
+   ============================================ */
 html,
 body {
     margin: 0;
@@ -15,6 +21,8 @@ body {
     background: var(--white);
     color: var(--story-grey);
     scroll-behavior: smooth;
+    overflow-x: hidden;   /* <-- KEY FIX for iPhone cropping */
+    min-width: 0;
 }
 
 a {
@@ -35,6 +43,9 @@ header {
     gap: 2rem;
     padding: 1rem 2rem;
     box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    /* FIX 2: box-sizing ensures padding doesn't push header wider than viewport */
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .header-top {
@@ -50,7 +61,12 @@ header img {
     height: auto;
 }
 
-/* Mobile menu toggle */
+/* ============================================
+   HAMBURGER MENU
+   The toggle button shows on mobile (<968px).
+   JS must add/remove 'active' on both the
+   button AND the .main-nav to open/close.
+   ============================================ */
 .mobile-menu-toggle {
     display: none;
     flex-direction: column;
@@ -59,6 +75,9 @@ header img {
     border: none;
     cursor: pointer;
     padding: 0.5rem;
+    /* FIX 3: z-index must exceed the nav panel (1001)
+       so the × button stays clickable when nav is open */
+    z-index: 1002;
 }
 
 .mobile-menu-toggle span {
@@ -70,14 +89,13 @@ header img {
     border-radius: 2px;
 }
 
+/* Animate hamburger → ✕ */
 .mobile-menu-toggle.active span:nth-child(1) {
     transform: rotate(45deg) translate(6px, 6px);
 }
-
 .mobile-menu-toggle.active span:nth-child(2) {
     opacity: 0;
 }
-
 .mobile-menu-toggle.active span:nth-child(3) {
     transform: rotate(-45deg) translate(6px, -6px);
 }
@@ -137,7 +155,6 @@ header img {
     z-index: 1001;
 }
 
-/* Create a "bridge" to make hovering easier */
 .dropdown::after {
     content: '';
     position: absolute;
@@ -177,7 +194,7 @@ header img {
     align-items: center;
 }
 
- .nav-search input {
+.nav-search input {
     padding: 0.5rem 1rem;
     border: 1px solid var(--story-red);
     border-right: none;
@@ -201,7 +218,7 @@ header img {
 .nav-search button:hover {
     background: var(--hover-pink);
 }
-/* Hide on mobile */
+
 @media (max-width: 768px) {
     .nav-search {
         display: none;
@@ -226,14 +243,8 @@ header img {
 }
 
 /* Scroll offset for anchor targets */
-#mission,
-#origin,
-#eligible,
-#howwework,
-#schoolshelped,
-#testimonials,
-#news,
-#contact {
+#mission, #origin, #eligible, #howwework,
+#schoolshelped, #testimonials, #news, #contact {
     scroll-margin-top: 150px;
 }
 
@@ -247,6 +258,9 @@ header img {
     justify-content: space-between;
     padding: 2rem;
     gap: 3rem;
+    /* FIX 4: prevent hero content from overflowing viewport width */
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 #hero h1 {
@@ -260,26 +274,39 @@ header img {
 .hero-content {
     flex: 1;
     max-width: 55%;
+    /* FIX 5: min-width: 0 lets this flex child shrink
+       below its content size on small screens */
+    min-width: 0;
 }
 
+/* ============================================
+   FIX 6: The SVG animation container.
+   The original SVG had viewBox="0 0 600 800"
+   with no width constraint — on iPhone (390px)
+   this rendered at 600px, causing the right
+   ~210px to be cut off.
+   max-width: 100% + overflow: hidden fixes it.
+   ============================================ */
 .animation-container {
     flex: 1;
     max-width: 40%;
     display: flex;
     justify-content: center;
     align-items: center;
+    min-width: 0; /* allows shrinking below content size */
 }
 
 .animation-container svg {
     width: 100%;
     height: auto;
     max-width: 400px;
+    display: block; /* removes inline bottom gap */
 }
 
 /* --- Expanding Image Section --- */
 .expanding-image-section {
     position: relative;
-    min-height: 100vh;
+    min-height: auto;
     background: var(--white);
     padding-top: 0;
 }
@@ -302,12 +329,10 @@ header img {
 .about-intro-text {
     max-width: 70%;
     margin: 0 auto;
-    padding: 4rem 2rem;
+    padding: 3rem var(--page-pad);
     text-align: center;
     background: var(--white);
     position: relative;
-    margin-top: -100px;
-    border-radius: 50px 150px 0 0;
 }
 
 .about-intro-text h2 {
@@ -330,13 +355,27 @@ header img {
     padding: 0;
 }
 
+/* ============================================
+   FIX 7: The original padding: 4rem 6rem
+   = 96px horizontal padding on each side.
+   At 390px viewport (iPhone 12), that's
+   192px padding on a 390px screen — content
+   gets squeezed to just 198px, and anything
+   slightly wider gets cropped.
+
+   Using clamp() scales padding gracefully:
+   min 1rem on very small screens,
+   preferred 4vw (scales with viewport),
+   max 4rem on large screens.
+   ============================================ */
 .about-section-item {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
-    padding: 4rem 6rem;
-    margin-bottom: 3rem;
+    padding: 3rem var(--page-pad);
+    margin-bottom: 0;
     align-items: center;
+    box-sizing: border-box;                  /* padding included in width */
 }
 
 .about-section-item.reverse {
@@ -362,16 +401,14 @@ header img {
 
 .about-image {
     width: 100%;
-    height: 35vw;   /* scales with screen width */
+    height: 35vw;
     max-height: 500px;
     background-size: cover;
-    background-position: center 20%; /* favour the top of portrait images */
+    background-position: center 20%;
     border-radius: 150px 0 0 0;
     transition: height 0.3s ease;
-
 }
 
-/* Medium devices — give more height so portrait images aren't squished */
 @media (max-width: 1100px) and (min-width: 769px) {
     .about-image {
         height: 90vw;
@@ -381,7 +418,7 @@ header img {
 
 @media (max-width: 768px) {
     .about-image {
-        height: 75vw;   /* tall crop — portrait images look natural */
+        height: 75vw;
         max-height: 480px;
     }
 }
@@ -436,12 +473,14 @@ header img {
 }
 
 /* --- Map Section --- */
+/* FIX 8: Same clamp fix applied to map section padding */
 #map-section {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
-    padding: 4rem 6rem;
+    padding: 3rem var(--page-pad);
     align-items: center;
+    box-sizing: border-box;
 }
 
 .map-text h3 {
@@ -479,6 +518,8 @@ header img {
 /* --- Carousel Section --- */
 #helped-carousel {
     padding: 4rem 2rem;
+    /* FIX 9: prevent carousel from causing page-level overflow */
+    overflow: hidden;
 }
 
 .carousel-container {
@@ -493,6 +534,8 @@ header img {
     display: flex;
     gap: 1rem;
     transition: transform 0.4s ease;
+    /* FIX 10: will-change improves animation performance on mobile */
+    will-change: transform;
 }
 
 .carousel-track img {
@@ -529,13 +572,8 @@ header img {
     transform: translateY(-50%) scale(1.1);
 }
 
-.carousel-btn.prev {
-    left: 0;
-}
-
-.carousel-btn.next {
-    right: 0;
-}
+.carousel-btn.prev { left: 0; }
+.carousel-btn.next { right: 0; }
 
 /* --- News Section --- */
 #news {
@@ -577,13 +615,8 @@ header img {
     font-size: 1.5rem;
 }
 
-.news-item h3 a {
-    color: var(--story-red);
-}
-
-.news-item h3 a:hover {
-    color: var(--hover-pink);
-}
+.news-item h3 a { color: var(--story-red); }
+.news-item h3 a:hover { color: var(--hover-pink); }
 
 .news-date {
     font-size: 0.9rem;
@@ -600,9 +633,7 @@ header img {
     transition: color 0.3s ease;
 }
 
-.view-all:hover {
-    color: var(--hover-pink);
-}
+.view-all:hover { color: var(--hover-pink); }
 
 /* --- Instagram Section --- */
 #instagram {
@@ -678,10 +709,7 @@ header img {
     gap: 0.5rem;
 }
 
-.contact-item h4 {
-    color: var(--story-red);
-    margin-bottom: 0.5rem;
-}
+.contact-item h4 { color: var(--story-red); margin-bottom: 0.5rem; }
 
 .contact-item a {
     color: var(--story-blue-dark);
@@ -689,9 +717,7 @@ header img {
     transition: color 0.3s ease;
 }
 
-.contact-item a:hover {
-    color: var(--hover-pink);
-}
+.contact-item a:hover { color: var(--hover-pink); }
 
 .contact-cta {
     background: linear-gradient(135deg, var(--story-blue-light) 0%, rgba(185, 235, 227, 0.5) 100%);
@@ -736,14 +762,9 @@ footer {
     color: var(--white);
 }
 
-footer a {
-    color: var(--bright-accent);
-    text-decoration: underline;
-}
+footer a { color: var(--bright-accent); text-decoration: underline; }
+footer a:hover { color: var(--hover-pink); }
 
-footer a:hover {
-    color: var(--hover-pink);
-}
 
 /* ==========================================
    RESPONSIVE STYLES
@@ -753,12 +774,18 @@ footer a:hover {
     header {
         padding: 1rem;
     }
-    
+
     .mobile-menu-toggle {
         display: flex;
-        z-index: 1002;
     }
-    
+
+    /* ============================================
+       FIX 11: The mobile nav panel.
+       Added a semi-transparent overlay (via
+       body::after) so tapping outside closes it.
+       The JS needs to toggle .nav-open on <body>
+       (see script.js instructions below).
+       ============================================ */
     .main-nav {
         position: fixed;
         top: 0;
@@ -767,17 +794,37 @@ footer a:hover {
         height: 100vh;
         background: var(--white);
         flex-direction: column;
+        align-items: flex-start;        /* left-align items in column */
         padding: 5rem 2rem 2rem;
         box-shadow: -4px 0 20px rgba(0,0,0,0.1);
         transition: right 0.3s ease;
         gap: 1rem;
         z-index: 1001;
+        overflow-y: auto;               /* scroll if menu is very long */
     }
-    
+
     .main-nav.active {
         right: 0;
     }
-    
+
+    /* FIX 12: Overlay behind nav panel — tap to close */
+    body::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        z-index: 1000;
+    }
+
+    body.nav-open::after {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    /* Dropdown becomes accordion on mobile */
     .dropdown-menu {
         position: static;
         display: none;
@@ -785,64 +832,88 @@ footer a:hover {
         box-shadow: none;
         padding-left: 1rem;
         margin-top: 0.5rem;
+        min-width: unset;
+        border-radius: 0;
+        /* FIX 13: Add a subtle left border so it looks like a sub-menu */
+        border-left: 2px solid var(--story-red);
     }
-    
+
+    /* FIX 14: The dropdown toggling on mobile.
+       JS should toggle .active on the .dropdown element.
+       We use the class instead of :hover so touch works. */
     .dropdown.active .dropdown-menu {
         display: block;
     }
-    
+
+    /* FIX 15: Show the chevron rotation on mobile via .active too */
+    .dropdown.active .chevron {
+        transform: rotate(180deg);
+    }
+
     .donate-btn {
         margin-left: auto;
     }
-    
+
     #hero {
         flex-direction: column;
         text-align: center;
         padding: 3rem 1.5rem;
     }
-    
+
     .hero-content,
     .animation-container {
         max-width: 100%;
     }
-    
+
+    /* FIX 16: On mobile hero, animation should be reasonably sized
+       — not full-width (too tall) but not tiny either */
+    .animation-container {
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
     .expanding-image {
         width: 90%;
         height: 50vh;
     }
-    
+
     .about-intro-text {
         margin-top: -80px;
         padding: 3rem 2rem;
     }
-    
+
+    /* FIX 17: Switch to single-column layout on tablet/mobile.
+       The original used repeat(auto-fit, minmax(300px, 1fr))
+       which could still produce two columns on iPad.
+       1fr is cleaner and more reliable. */
     .about-section-item,
     .about-section-item.reverse {
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-template-columns: 1fr;
         padding: 2rem 1.5rem;
         gap: 2rem;
         direction: ltr;
     }
-    
+
     .about-image,
     .about-video {
         height: 300px;
     }
-    
+
     #map-section {
         grid-template-columns: 1fr;
         padding: 2rem 1.5rem;
     }
-    
+
     .contact-container {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
-    
+
     .carousel-container {
         padding: 0 2rem;
     }
-    
+
     .carousel-track img {
         width: 200px;
         height: 300px;
@@ -850,21 +921,53 @@ footer a:hover {
 }
 
 @media (max-width: 640px) {
+    .about-intro-text {
+        max-width: 100%;
+        padding: 2rem 1.5rem;
+    }
+
     .about-intro-text h1 {
         font-size: 1.5rem;
     }
-    
+
     .about-text h3,
     .map-text h3 {
         font-size: 1.8rem;
     }
-    
+
+    /* FIX 18: Smaller padding on the about/map sections
+       for small phones (< 640px) */
+    .about-section-item,
+    .about-section-item.reverse {
+        padding: 1.5rem 1rem;
+    }
+
+    #map-section {
+        padding: 1.5rem 1rem;
+    }
+
     .carousel-container {
         padding: 0 1rem;
     }
-    
+
     .carousel-track img {
         width: 160px;
         height: 240px;
+    }
+
+    /* FIX 19: Reduce hero heading on very small screens */
+    #hero h1 {
+        font-size: clamp(1.6rem, 5vw, 2.5rem);
+    }
+
+    /* FIX 20: Reduce border-radius on expanding image
+       so it doesn't clip content on small screens */
+    .expanding-image {
+        border-radius: 0 80px 0 0;
+    }
+
+    .about-intro-text {
+        border-radius: 30px 80px 0 0;
+        margin-top: -60px;
     }
 }

@@ -65,6 +65,26 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+    // ==========================================
+    // Catalogue search 
+    // ==========================================
+    const SEARCH_BASE_URL = 'https://storystore.ath.nz/index.php/search';
+    const SEARCH_PARAM    = 's';
+
+    const searchForm  = document.getElementById('catalogue-search');
+    const searchInput = document.getElementById('search-input');
+
+    if (searchForm) {
+        searchForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const term = searchInput.value.trim();
+            if (!term) return;
+            const url = `${SEARCH_BASE_URL}?${SEARCH_PARAM}=${encodeURIComponent(term)}`;
+            window.open(url, '_blank', 'noopener');
+            searchInput.value = '';
+        });
+    }
+
 // ==========================================
 // Interactive Map with School Locations
 // ==========================================
