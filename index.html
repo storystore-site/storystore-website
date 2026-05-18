@@ -20,49 +20,67 @@
 
 <body>
 
-  <header>
-    <div class="header-top">
-      <img src="assets/images/logo.png" alt="The Story Store Logo">
+<header>
+  <div class="header-top">
+    <img src="assets/images/logo.png" alt="The Story Store Logo">
+    <div class="header-top-actions">
+      <a href="https://givealittle.co.nz/org/the-story-store-trust" target="_blank" class="donate-btn">Donate</a>
       <button class="mobile-menu-toggle" aria-label="Toggle menu">
         <span></span>
         <span></span>
         <span></span>
       </button>
     </div>
+  </div>
 
-    <nav class="main-nav">
-      <div class="dropdown">
-        <a href="#about" class="nav-link">About 
-          <svg class="chevron" width="15" height="15" viewBox="0 0 10 10">
-            <path d="M1 3l4 4 4-4" stroke="currentColor" stroke-width="2" fill="none" />
-          </svg>
-        </a>
-        <div class="dropdown-menu">
-          <a href="#mission">Our Mission</a>
-          <a href="#origin">How we started</a>
-          <a href="#eligible">Who is eligible</a>
-          <a href="#howwework">How we work</a>
-          <a href="#schoolshelped">Schools we've helped</a>
-          <a href="#testimonials">What schools say</a>
-        </div>
+  <nav class="main-nav">
+    <div class="dropdown">
+      <a href="#about" class="nav-link">About
+        <svg class="chevron" width="15" height="15" viewBox="0 0 10 10">
+          <path d="M1 3l4 4 4-4" stroke="currentColor" stroke-width="2" fill="none" />
+        </svg>
+      </a>
+      <div class="dropdown-menu">
+        <a href="#mission">Our Mission</a>
+        <a href="#origin">How we started</a>
+        <a href="#eligible">Who is eligible</a>
+        <a href="#howwework">How we work</a>
+        <a href="#schoolshelped">Schools we've helped</a>
+        <a href="#testimonials">What schools say</a>
       </div>
-      <a href="#news">News</a>
-      <a href="#contact">Contact</a>
-      <!--Catalogue search form-->
-    <form class="nav-search" id="catalogue-search">
+    </div>
+    <a href="#news">News</a>
+    <a href="#search-section">Search</a>
+    <a href="#contact">Contact</a>
+
+    <!-- Mobile-only search, sits inside nav panel when menu opens -->
+    <form class="catalogue-search catalogue-search--mobile" id="catalogue-search-mobile">
       <input
         type="text"
-        id="search-input"
+        id="search-input-mobile"
         placeholder="Search books…"
         autocomplete="off"
         aria-label="Search the catalogue"
       >
       <button type="submit" aria-label="Search">Search</button>
     </form>
-    </nav>
-    
+  </nav>
+
+  <!-- Desktop search + donate, always visible, never inside hamburger -->
+  <div class="header-actions">
+    <form class="catalogue-search" id="catalogue-search-nav">
+      <input
+        type="text"
+        id="search-input-nav"
+        placeholder="Search books…"
+        autocomplete="off"
+        aria-label="Search the catalogue"
+      >
+      <button type="submit" aria-label="Search">Search</button>
+    </form>
     <a href="https://givealittle.co.nz/org/the-story-store-trust" target="_blank" class="donate-btn">Donate</a>
-  </header>
+  </div>
+</header>
 
 
   <!-- Hero Section -->
@@ -71,11 +89,28 @@
       <h1>Collecting and sharing great books so all tamariki have access to stories they&nbsp;love</h1>
     </div>
     <div class="animation-container">
-  <img
-    src="assets/images/hero-illustration.png"
-    alt="A colourful pile of books with a reading child"
-    class="hero-illustration"
-  >
+      <svg width="100%" height="100%" viewBox="0 0 111 109" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <path id="Book" d="M76.248,90.709L86.544,82.505L91.416,88.316L89.739,84.49C89.739,84.49 91.33,81.907 91.416,81.907C91.502,81.907 93.895,91.265 93.895,91.265L83.469,97.632L75.008,98.486L76.248,90.709Z" style="fill:#f4f0eb;fill-rule:nonzero;"/>
+    <path id="Child" d="M91.777,99.338C91.045,95.95 83.972,95.751 78.077,97.223C77.943,97.256 77.817,97.295 77.685,97.33C77.993,95.872 78.164,94.29 78.164,92.634C78.164,88.413 77.066,85.049 75.361,82.761C75.106,82.419 75.36,80.938 75.835,80.883C79.589,80.443 83.004,77.744 83.975,73.5C84.651,70.554 83.445,67.52 82.347,66.719C82.941,66.624 83.948,66.536 85.733,67.36C84.607,64.979 81.98,64.996 81.293,64.933C82.083,64.206 84.497,64.293 84.497,64.293C84.497,64.293 83.319,62.725 78.649,62.404C78.383,62.392 77.282,62.468 77.001,62.473C76.71,62.478 79.885,61.511 79.885,61.511C79.885,61.511 76.349,60.768 73.842,61.443C72.166,61.858 70.321,62.5 68.898,63.949C67.583,65.287 66.829,66.772 66.368,68.793C65.499,72.591 66.574,76.542 69.043,78.704C69.305,78.931 68.89,80.625 68.625,80.787C65.82,82.49 62.293,87.351 62.293,93.066C62.682,101.744 65.842,105.522 65.842,105.522C65.842,105.522 74.768,108.759 80.594,107.303C86.49,105.83 92.509,102.726 91.777,99.338Z" style="fill:#f4f0eb;fill-rule:nonzero;"/>
+    <path id="Leaf15" d="M5.698,56.228C5.698,56.228 12.296,49.211 17.551,56.753C17.551,56.754 13.055,63.647 5.698,56.228Z" style="fill:#f4f0eb;fill-rule:nonzero;"/>
+    <path id="Leaf14" d="M37.778,0.434C37.778,0.434 46.056,5.358 39.83,12.119C39.83,12.119 32.125,9.222 37.778,0.434Z" style="fill:#f4f0eb;fill-rule:nonzero;"/>
+    <path id="Leaf13" d="M61.27,0C61.27,0 68.051,6.841 60.329,11.827C60.329,11.827 53.596,7.09 61.27,0Z" style="fill:#f4f0eb;fill-rule:nonzero;"/>
+    <path id="Leaf12" d="M94.649,32.996C94.649,32.996 85.604,36.31 84.289,27.213C84.289,27.213 91.401,23.065 94.649,32.996Z" style="fill:#f4f0eb;fill-rule:nonzero;"/>
+    <path id="Leaf11" d="M14.609,69.183C14.609,69.183 18.058,60.189 25.778,65.179C25.778,65.179 24.227,73.265 14.609,69.183Z" style="fill:#f4f0eb;fill-rule:nonzero;"/>
+    <path id="Leaf10" d="M17.014,27.155C17.014,27.155 26.23,24.346 27.04,33.503C27.04,33.504 19.709,37.25 17.014,27.155Z" style="fill:#f4f0eb;fill-rule:nonzero;"/>
+    <path id="Leaf9" d="M15.796,10.786C15.796,10.786 25.418,10.283 23.996,19.365C23.996,19.365 15.978,21.233 15.796,10.786Z" style="fill:#f4f0eb;fill-rule:nonzero;"/>
+    <path id="Leaf8" d="M0,38.449C0,38.449 8.179,33.357 11.325,41.995C11.325,41.995 5.21,47.506 0,38.449Z" style="fill:#f4f0eb;fill-rule:nonzero;"/>
+    <path id="Leaf7" d="M78.693,33.185C78.693,33.185 70.014,37.366 67.817,28.44C67.817,28.44 74.489,23.62 78.693,33.185Z" style="fill:#f4f0eb;fill-rule:nonzero;"/>
+    <path id="Leaf6" d="M50.686,9.21C50.686,9.21 57.549,15.968 49.888,21.047C49.888,21.048 43.101,16.394 50.686,9.21Z" style="fill:#f4f0eb;fill-rule:nonzero;"/>
+    <path id="Leaf5" d="M78.278,5.067C78.278,5.067 79.778,14.582 70.599,14.111C70.599,14.111 67.908,6.333 78.278,5.067Z" style="fill:#f4f0eb;fill-rule:nonzero;"/>
+    <path id="Leaf4" d="M64.635,45.728C64.635,45.728 60.133,54.243 53.066,48.365C53.066,48.365 55.573,40.526 64.635,45.728Z" style="fill:#f4f0eb;fill-rule:nonzero;"/>
+    <path id="Leaf3" d="M96.791,11.223C96.791,11.223 92.634,19.914 85.338,14.325C85.338,14.325 87.528,6.391 96.791,11.223Z" style="fill:#f4f0eb;fill-rule:nonzero;"/>
+    <path id="Leaf2" d="M29.153,15.705C29.153,15.705 45.015,16.281 41.36,30.98C41.36,30.98 27.932,32.878 29.153,15.705Z" style="fill:#f4f0eb;fill-rule:nonzero;"/>
+    <path id="Leaf1" d="M15.513,40.359C15.513,40.359 30.748,35.908 31.909,51.012C31.909,51.012 19.763,57.043 15.513,40.359Z" style="fill:#f4f0eb;fill-rule:nonzero;"/>
+    <path id="Tree" d="M64.221,96.924C55.156,93.627 45.635,73.125 47.327,55.995C50.349,34.706 66.97,35.145 66.97,35.145C66.951,35.139 66.932,35.134 66.913,35.128C66.949,35.129 66.967,35.129 66.967,35.129C61.498,33.304 56.622,34.056 52.853,35.493L53.233,34.901L54.382,33.498C54.773,33.039 55.123,32.529 55.547,32.103L56.836,30.842C57.091,30.578 57.361,30.326 57.631,30.073C59.145,28.705 60.829,27.538 62.576,26.48C63.072,26.133 63.622,25.884 64.16,25.613C64.699,25.342 65.237,25.071 65.772,24.802C66.851,24.272 67.992,23.89 69.089,23.426L69.504,23.259L69.61,23.217C69.364,23.281 69.573,23.225 69.532,23.235L69.59,23.217L69.816,23.148L70.713,22.873C71.31,22.69 71.901,22.508 72.492,22.327C73.535,22.129 74.54,21.837 75.609,21.687C79.909,21.016 84.018,21.245 87.627,22.002C91.246,22.758 94.378,24.023 96.975,25.415C99.595,26.79 101.641,28.354 103.229,29.741C104.018,30.442 104.721,31.078 105.262,31.695C105.827,32.292 106.319,32.796 106.656,33.255C107.366,34.147 107.746,34.623 107.746,34.623C107.746,34.623 107.437,34.093 106.858,33.099C106.586,32.586 106.172,32.014 105.692,31.33C105.236,30.627 104.627,29.887 103.934,29.061C102.539,27.426 100.697,25.533 98.227,23.742C95.776,21.936 92.739,20.166 89.03,18.852C85.331,17.542 80.935,16.692 75.992,16.867C74.756,16.893 73.405,17.095 72.075,17.226C71.48,17.337 70.88,17.449 70.279,17.561L69.373,17.73L69.145,17.773L69.089,17.784C69.011,17.803 69.183,17.754 68.9,17.83L68.779,17.863L68.296,17.996C67.005,18.373 65.69,18.665 64.366,19.14C63.702,19.387 63.034,19.636 62.365,19.886C61.693,20.139 61.013,20.371 60.351,20.723C59.681,21.051 59.008,21.38 58.335,21.711L57.319,22.216L56.336,22.828C55.031,23.661 53.66,24.443 52.449,25.489L50.569,26.993C49.949,27.508 49.413,28.103 48.83,28.663L47.106,30.387C46.568,31.022 46.04,31.684 45.507,32.343L43.917,34.348L42.728,36.121L41.539,37.896L41.391,38.119L41.111,38.613L40.815,39.137L40.225,40.192C38.697,43.026 37.472,46.017 36.584,49.031C35.963,51.121 35.514,53.203 35.191,55.261C35.19,55.263 35.19,55.265 35.19,55.267C35.114,55.752 35.044,56.236 34.982,56.718C34.978,56.747 34.973,56.777 34.97,56.806C34.915,57.232 34.865,57.657 34.82,58.08C34.821,58.08 34.822,58.081 34.822,58.081C34.656,59.65 34.556,61.199 34.509,62.72C32.652,60.974 29.938,59.377 26.043,59.027C26.043,59.027 33.542,63.447 34.116,77.206C34.1,101.529 11.118,108.58 11.118,108.58C11.118,108.58 32.024,108.648 60.68,108.648C89.336,108.648 110.693,108.716 110.693,108.716C110.693,108.716 73.285,100.22 64.221,96.924Z" style="fill:#f4f0eb;fill-rule:nonzero;"/>
+</svg>
+      </div>
+
 </div>
   </section>
 
@@ -222,7 +257,28 @@
     <p><a href="https://storystore.athenaeum.nz" class="view-all">View all news →</a></p>
   </section>
 
-  <!-- Instagram Section - Simplified -->
+<!-- Search Section -->
+<section class="search-section" id="search-section">
+  <h2>Search the book catalogue</h2>
+
+  <form class="catalogue-search" id="catalogue-search-main" action="https://YOUR-CATALOGUE-URL-HERE" method="GET">
+    <input
+      type="text"
+      id="search-input-main"
+      name="q"
+      placeholder="Search by title, author, keyword..."
+      autocomplete="off"
+      aria-label="Search the catalogue"
+    >
+    <button type="submit" aria-label="Search">Search</button>
+  </form>
+
+  <p class="search-note">
+    You'll be taken to our catalogue system to view results
+  </p>
+</section>
+
+  <!-- Instagram Section -->
   <section id="instagram">
     <div class="instagram-simple">
       <h2>Follow our journey on Instagram</h2>

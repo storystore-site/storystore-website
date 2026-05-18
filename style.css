@@ -1,16 +1,17 @@
 :root {
     --story-grey: #58595B;
     --story-red: #DE3A3A;
-    --white: #F4F0EB;
+    --story-white: #F4F0EB;
     --bright-accent: #FFD166;
     --hover-pink: #FF8FA3;
+    --hover-blue: #9f8de1;
     --story-blue-light: rgb(185 235 227);
     --story-blue-dark: #252c7c;
     --page-pad: clamp(1.5rem, 5vw, 5rem);
 }
 
 /* ============================================
-   FIX 1: overflow-x hidden stops horizontal
+   overflow-x hidden stops horizontal
    scroll on iPhone. min-width: 0 lets flex
    children shrink below their content size.
    ============================================ */
@@ -18,7 +19,7 @@ html,
 body {
     margin: 0;
     font-family: 'Montserrat', sans-serif;
-    background: var(--white);
+    background: var(--story-white);
     color: var(--story-grey);
     scroll-behavior: smooth;
     overflow-x: hidden;   /* <-- KEY FIX for iPhone cropping */
@@ -39,21 +40,31 @@ header {
     backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    justify-content: space-between;
     gap: 2rem;
     padding: 1rem 2rem;
     box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-    /* FIX 2: box-sizing ensures padding doesn't push header wider than viewport */
     box-sizing: border-box;
     width: 100%;
 }
 
+/* ── Header top row (logo + mobile controls) ── */
 .header-top {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    flex: 1;
-    min-width: 200px;
+    gap: 1rem;
+}
+
+.header-top-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+/* Hide mobile donate button on desktop */
+.header-top-actions .donate-btn {
+    display: none;
 }
 
 header img {
@@ -62,11 +73,8 @@ header img {
 }
 
 /* ============================================
-   HAMBURGER MENU
-   The toggle button shows on mobile (<968px).
-   JS must add/remove 'active' on both the
-   button AND the .main-nav to open/close.
-   ============================================ */
+   HAMBURGER BUTTON
+============================================ */
 .mobile-menu-toggle {
     display: none;
     flex-direction: column;
@@ -75,8 +83,6 @@ header img {
     border: none;
     cursor: pointer;
     padding: 0.5rem;
-    /* FIX 3: z-index must exceed the nav panel (1001)
-       so the × button stays clickable when nav is open */
     z-index: 1002;
 }
 
@@ -89,7 +95,7 @@ header img {
     border-radius: 2px;
 }
 
-/* Animate hamburger → ✕ */
+/* Animate to × when active */
 .mobile-menu-toggle.active span:nth-child(1) {
     transform: rotate(45deg) translate(6px, 6px);
 }
@@ -100,26 +106,36 @@ header img {
     transform: rotate(-45deg) translate(6px, -6px);
 }
 
-/* Navigation */
+/* ============================================
+   MAIN NAV
+============================================ */
 .main-nav {
     display: flex;
-    align-items: center; 
+    align-items: center;
     gap: 2rem;
-    flex-grow: 1;
+    min-width: 0;
+    margin-right: auto;
 }
 
-.main-nav a {
+.main-nav > a {
     font-weight: 500;
     font-size: 1.2rem;
     color: var(--story-red);
     transition: color 0.3s ease;
 }
 
-.main-nav a:hover {
+.main-nav > a:hover {
     color: var(--story-grey);
 }
 
-/* Dropdown */
+/* ============================================
+   DROPDOWN — toggled via .open class from JS.
+   No CSS :hover rules; JS mouseenter/mouseleave
+   handles open/close so the menu never jumps.
+============================================ */
+/* ============================================
+   DROPDOWN — :hover for desktop, .open for mobile accordion
+============================================ */
 .dropdown {
     position: relative;
     display: flex;
@@ -130,6 +146,14 @@ header img {
     display: inline-flex;
     align-items: center;
     cursor: pointer;
+    font-weight: 500;
+    font-size: 1.2rem;
+    color: var(--story-red);
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--story-grey);
 }
 
 .chevron {
@@ -137,17 +161,18 @@ header img {
     transition: transform 0.2s ease;
 }
 
-.dropdown:hover .chevron {
+.dropdown:hover .chevron,
+.dropdown.open .chevron {
     transform: rotate(180deg);
 }
 
 .dropdown-menu {
     position: absolute;
-    top: calc(100% + 5px);
+    top: 100%;
+    padding-top: 10px;
     left: 0;
     display: none;
-    background: var(--white);
-    padding: 0.5rem 0;
+    background: var(--story-white);
     min-width: 220px;
     border: 2px solid var(--story-red);
     border-radius: 12px;
@@ -155,103 +180,235 @@ header img {
     z-index: 1001;
 }
 
-.dropdown::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    height: 10px;
-    background: transparent;
-}
-
 .dropdown:hover .dropdown-menu,
-.dropdown-menu:hover {
+.dropdown.open .dropdown-menu {
     display: block;
 }
 
 .dropdown-menu a {
     display: block;
     padding: 0.75rem 1.25rem;
+    border: none;
     color: var(--story-grey);
     font-size: 1rem;
     font-weight: 500;
     transition: all 0.2s ease;
-    border-left: 3px solid transparent;
 }
 
 .dropdown-menu a:hover {
     background: rgba(255, 68, 65, 0.08);
     color: var(--story-red);
-    border-left-color: var(--story-red);
     padding-left: 1.5rem;
 }
 
-/* Search form */
-.nav-search {
-    margin-left: auto;
+/* ============================================
+   HEADER ACTIONS (desktop search + donate)
+============================================ */
+.header-actions {
     display: flex;
     align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+    white-space: nowrap;
+    margin-left: 0;
 }
 
-.nav-search input {
-    padding: 0.5rem 1rem;
-    border: 1px solid var(--story-red);
+/* Search form */
+.catalogue-search {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.catalogue-search input {
+    height: 46px;
+    padding: 0 1rem;
+    border: 2px solid var(--story-blue-dark);
     border-right: none;
-    border-radius: 50px 0 0 50px;
-    outline: none;
+    border-radius: 999px 0 0 999px;
     font-size: 0.95rem;
+    outline: none;
+    background: white;
+    box-sizing: border-box;
 }
 
-.nav-search button {
-    padding: 0.5rem 1rem;
-    border: 2px solid var(--story-red);
+.catalogue-search button {
+    height: 46px;
+    padding: 0 1.25rem;
+    border: 2px solid var(--story-blue-dark);
     border-left: none;
-    background: var(--story-red);
-    color: var(--white);
-    border-radius: 0 50px 50px 0;
+    background: var(--story-blue-dark);
+    color: var(--story-white);
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.3s ease;
+    border-radius: 0 999px 999px 0;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
 }
 
-.nav-search button:hover {
-    background: var(--hover-pink);
+.catalogue-search button:hover {
+    background: var(--hover-blue);
+    border-color: var(--hover-blue);
+    color: white;
 }
 
-@media (max-width: 768px) {
-    .nav-search {
-        display: none;
-    }
+/* Mobile search inside nav panel — hidden on desktop */
+.catalogue-search--mobile {
+    display: none;
 }
 
-/* Donate Button */
+/* Donate button */
 .donate-btn {
     background: var(--story-red);
-    color: var(--white);
+    color: var(--story-white) !important;
     padding: 0.75rem 1.5rem;
     border-radius: 50px;
     font-weight: 700;
     transition: all 0.3s ease;
     white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
 }
 
 .donate-btn:hover {
-    background: var(--hover-pink);
+    background: var(--story-red);
+    color: var(--story-white);
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 68, 65, 0.3);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* ============================================
+   MOBILE  (max-width: 968px)
+============================================ */
+@media (max-width: 968px) {
+
+    /* Header becomes a column so the nav panel
+       can drop below the logo/controls row */
+    header {
+        flex-wrap: wrap;
+        gap: 0;
+        padding: 0.75rem 1.25rem;
+    }
+
+    .header-top {
+        width: 100%;
+        flex: 1;
+        justify-content: space-between;
+    }
+
+    /* Show hamburger */
+    .mobile-menu-toggle {
+        display: flex;
+    }
+
+    /* Show donate next to hamburger, hide desktop donate */
+    .header-top-actions .donate-btn {
+        display: inline-flex;
+    }
+    .header-actions .donate-btn {
+        display: none;
+    }
+
+    /* Hide desktop search bar */
+    .header-actions .catalogue-search {
+        display: none;
+    }
+
+    /* Hide header-actions entirely if donate is hidden
+       and search is hidden — prevents empty space */
+    .header-actions {
+        display: none;
+    }
+
+    /* Nav panel — hidden until .active */
+    .main-nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        left: auto;
+        width: 280px;
+        background: rgba(244, 240, 235, 0.98);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem 1.25rem 1.5rem;
+        gap: 1rem;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        z-index: 999;
+        box-sizing: border-box;
+    }
+
+    .main-nav.active {
+        display: flex;
+    }
+
+    .main-nav > a {
+        font-size: 1.1rem;
+    }
+
+    /* Dropdown becomes inline accordion */
+    .dropdown {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .nav-link {
+        padding-bottom: 0;
+        margin-bottom: 0;
+        font-size: 1.1rem;
+    }
+
+    .dropdown-menu {
+        position: static;
+        display: none;
+        box-shadow: none;
+        border: none;
+        border-left: 3px solid var(--story-red);
+        border-radius: 0;
+        padding: 0.25rem 0 0.25rem 0.75rem;
+        min-width: unset;
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    /* On mobile .open shows the accordion */
+    .dropdown.open .dropdown-menu {
+        display: block;
+    }
+
+    .dropdown-menu a {
+        padding: 0.5rem 0.75rem;
+        font-size: 1rem;
+    }
+
+    .dropdown-menu a:hover {
+        padding-left: 1rem;
+    }
+
+    /* Mobile search appears at bottom of nav panel */
+    .catalogue-search--mobile {
+        display: flex;
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    .catalogue-search--mobile input {
+        flex: 1;
+        min-width: 0;
+    }
 }
 
 /* Scroll offset for anchor targets */
 #mission, #origin, #eligible, #howwework,
 #schoolshelped, #testimonials, #news, #contact {
-    scroll-margin-top: 150px;
+    scroll-margin-top: var(--header-height, 80px);
 }
-
 /* --- Hero Section --- */
 #hero {
     background: var(--story-red);
-    color: var(--white);
+    color: var(--story-white);
     min-height: calc(100vh - 100px);
     display: flex;
     align-items: center;
@@ -280,12 +437,7 @@ header img {
 }
 
 /* ============================================
-   FIX 6: The SVG animation container.
-   The original SVG had viewBox="0 0 600 800"
-   with no width constraint — on iPhone (390px)
-   this rendered at 600px, causing the right
-   ~210px to be cut off.
-   max-width: 100% + overflow: hidden fixes it.
+   The SVG animation container
    ============================================ */
 .animation-container {
     flex: 1;
@@ -307,7 +459,7 @@ header img {
 .expanding-image-section {
     position: relative;
     min-height: auto;
-    background: var(--white);
+    background: var(--story-white);
     padding-top: 0;
 }
 
@@ -331,7 +483,7 @@ header img {
     margin: 0 auto;
     padding: 3rem var(--page-pad);
     text-align: center;
-    background: var(--white);
+    background: var(--story-white);
     position: relative;
 }
 
@@ -351,18 +503,11 @@ header img {
 
 /* --- About Section --- */
 #about {
-    background: var(--white);
+    background: var(--story-white);
     padding: 0;
 }
 
 /* ============================================
-   FIX 7: The original padding: 4rem 6rem
-   = 96px horizontal padding on each side.
-   At 390px viewport (iPhone 12), that's
-   192px padding on a 390px screen — content
-   gets squeezed to just 198px, and anything
-   slightly wider gets cropped.
-
    Using clamp() scales padding gracefully:
    min 1rem on very small screens,
    preferred 4vw (scales with viewport),
@@ -469,11 +614,10 @@ header img {
     padding: 0.15em 0.35em;
     border-radius: 4px;
     font-weight: 600;
-    color: var(--white);
+    color: var(--story-white);
 }
 
 /* --- Map Section --- */
-/* FIX 8: Same clamp fix applied to map section padding */
 #map-section {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -518,7 +662,7 @@ header img {
 /* --- Carousel Section --- */
 #helped-carousel {
     padding: 4rem 2rem;
-    /* FIX 9: prevent carousel from causing page-level overflow */
+    /* prevent carousel from causing page-level overflow */
     overflow: hidden;
 }
 
@@ -534,7 +678,7 @@ header img {
     display: flex;
     gap: 1rem;
     transition: transform 0.4s ease;
-    /* FIX 10: will-change improves animation performance on mobile */
+    /* will-change improves animation performance on mobile */
     will-change: transform;
 }
 
@@ -637,7 +781,7 @@ header img {
 
 /* --- Instagram Section --- */
 #instagram {
-    background: linear-gradient(135deg, var(--story-blue-light) 0%, var(--white) 100%);
+    background: linear-gradient(135deg, var(--story-blue-light) 0%, var(--story-white) 100%);
     padding: 5rem 2rem;
     text-align: center;
 }
@@ -679,7 +823,7 @@ header img {
 /* --- Contact Section --- */
 #contact {
     padding: 4rem 2rem;
-    background: var(--white);
+    background: var(--story-white);
 }
 
 .contact-container {
@@ -740,7 +884,7 @@ header img {
 .cta-button {
     display: inline-block;
     background: var(--story-red);
-    color: var(--white);
+    color: var(--story-white);
     padding: 1rem 2.5rem;
     border-radius: 50px;
     font-weight: 700;
@@ -759,7 +903,7 @@ footer {
     text-align: center;
     padding: 2rem;
     background: var(--story-grey);
-    color: var(--white);
+    color: var(--story-white);
 }
 
 footer a { color: var(--bright-accent); text-decoration: underline; }
@@ -780,7 +924,7 @@ footer a:hover { color: var(--hover-pink); }
     }
 
     /* ============================================
-       FIX 11: The mobile nav panel.
+       mobile nav panel.
        Added a semi-transparent overlay (via
        body::after) so tapping outside closes it.
        The JS needs to toggle .nav-open on <body>
@@ -792,7 +936,7 @@ footer a:hover { color: var(--hover-pink); }
         right: -100%;
         width: 280px;
         height: 100vh;
-        background: var(--white);
+        background: var(--story-white);
         flex-direction: column;
         align-items: flex-start;        /* left-align items in column */
         padding: 5rem 2rem 2rem;
@@ -807,7 +951,7 @@ footer a:hover { color: var(--hover-pink); }
         right: 0;
     }
 
-    /* FIX 12: Overlay behind nav panel — tap to close */
+    /* Overlay behind nav panel — tap to close */
     body::after {
         content: '';
         position: fixed;
@@ -834,18 +978,18 @@ footer a:hover { color: var(--hover-pink); }
         margin-top: 0.5rem;
         min-width: unset;
         border-radius: 0;
-        /* FIX 13: Add a subtle left border so it looks like a sub-menu */
+        /* Add a subtle left border so it looks like a sub-menu */
         border-left: 2px solid var(--story-red);
     }
 
-    /* FIX 14: The dropdown toggling on mobile.
+    /* dropdown toggling on mobile.
        JS should toggle .active on the .dropdown element.
        We use the class instead of :hover so touch works. */
     .dropdown.active .dropdown-menu {
         display: block;
     }
 
-    /* FIX 15: Show the chevron rotation on mobile via .active too */
+    /* how the chevron rotation on mobile via .active too */
     .dropdown.active .chevron {
         transform: rotate(180deg);
     }
@@ -865,7 +1009,7 @@ footer a:hover { color: var(--hover-pink); }
         max-width: 100%;
     }
 
-    /* FIX 16: On mobile hero, animation should be reasonably sized
+    /* On mobile hero, animation should be reasonably sized
        — not full-width (too tall) but not tiny either */
     .animation-container {
         width: 100%;
@@ -883,7 +1027,7 @@ footer a:hover { color: var(--hover-pink); }
         padding: 3rem 2rem;
     }
 
-    /* FIX 17: Switch to single-column layout on tablet/mobile.
+    /* Switch to single-column layout on tablet/mobile.
        The original used repeat(auto-fit, minmax(300px, 1fr))
        which could still produce two columns on iPad.
        1fr is cleaner and more reliable. */
@@ -935,7 +1079,7 @@ footer a:hover { color: var(--hover-pink); }
         font-size: 1.8rem;
     }
 
-    /* FIX 18: Smaller padding on the about/map sections
+    /* Smaller padding on the about/map sections
        for small phones (< 640px) */
     .about-section-item,
     .about-section-item.reverse {
@@ -955,12 +1099,12 @@ footer a:hover { color: var(--hover-pink); }
         height: 240px;
     }
 
-    /* FIX 19: Reduce hero heading on very small screens */
+    /*  Reduce hero heading on very small screens */
     #hero h1 {
         font-size: clamp(1.6rem, 5vw, 2.5rem);
     }
 
-    /* FIX 20: Reduce border-radius on expanding image
+    /* Reduce border-radius on expanding image
        so it doesn't clip content on small screens */
     .expanding-image {
         border-radius: 0 80px 0 0;
@@ -970,4 +1114,146 @@ footer a:hover { color: var(--hover-pink); }
         border-radius: 30px 80px 0 0;
         margin-top: -60px;
     }
+}
+
+/* ============================================
+   SEARCH SECTION
+============================================ */
+.search-section {
+    background: var(--story-blue-dark);
+    padding: 4rem var(--page-pad);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
+}
+
+.search-section h2 {
+    color: var(--story-white);
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    margin: 0;
+}
+
+.search-section .catalogue-search {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 560px;
+}
+
+.search-section .catalogue-search input {
+    height: 50px;
+    flex: 1;
+    padding: 0 1.25rem;
+    border: 2px solid var(--story-white);
+    border-right: none;
+    border-radius: 999px 0 0 999px;
+    font-size: 1rem;
+    outline: none;
+    background: white;
+    box-sizing: border-box;
+    color: var(--story-grey);
+}
+
+.search-section .catalogue-search button {
+    height: 50px;
+    padding: 0 1.5rem;
+    border: 2px solid var(--story-white);
+    border-left: none;
+    background: var(--story-red);
+    color: var(--story-white);
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 0 999px 999px 0;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.search-section .catalogue-search button:hover {
+    background: var(--hover-pink);
+    border-color: var(--hover-pink);
+}
+
+.search-note {
+    color: var(--story-blue-light);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+@media (max-width: 968px) {
+    .search-section .catalogue-search {
+        width: 100%;
+    }
+
+    .search-section .catalogue-search input {
+        font-size: 0.95rem;
+    }
+}
+
+/* =========================
+   HERO ANIMATION 
+   ========================= */
+#Tree,
+#Book,
+#Leaf1,
+#Leaf2,
+#Leaf3,
+#Leaf4,
+#Leaf5,
+#Leaf6,
+#Leaf7,
+#Leaf8,
+#Leaf9,
+#Leaf10,
+#Leaf11,
+#Leaf12,
+#Leaf13,
+#Leaf14,
+#Leaf15 {
+  transform-box: viewBox;
+  transform-origin: center;
+}
+
+/* BOOK — breathing  */
+#Book {
+  animation: bookBreathe 4s ease-in-out infinite;
+}
+
+@keyframes bookBreathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+
+/* LEAVES — sway */
+#Leaf1,
+#Leaf4,
+#Leaf8,
+#Leaf12,
+#Leaf15 {
+  animation: leafSway 6s ease-in-out infinite;
+}
+
+@keyframes leafSway {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(3deg); }
+}
+
+/* stagger */
+#Leaf4  { animation-delay: 0.4s; }
+#Leaf8  { animation-delay: 0.8s; }
+#Leaf12 { animation-delay: 1.2s; }
+#Leaf15 { animation-delay: 1.6s; }
+
+/* safety */
+@media (prefers-reduced-motion: reduce) {
+  #Book,
+  #Leaf1,
+  #Leaf4,
+  #Leaf8,
+  #Leaf12,
+  #Leaf15 {
+    animation: none !important;
+  }
 }

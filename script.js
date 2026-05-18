@@ -5,6 +5,9 @@
 // ==========================================
 // Mobile Menu Toggle
 // ==========================================
+// ==========================================
+// Mobile Menu Toggle
+// ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     const menuToggle = document.querySelector('.mobile-menu-toggle');
     const mainNav = document.querySelector('.main-nav');
@@ -18,10 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         
         // Handle dropdown toggle in mobile menu
-        if (navLink && window.innerWidth <= 968) {
+        if (navLink) {
             navLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                dropdown.classList.toggle('active');
+                if (mainNav.classList.contains('active')) {
+                    e.preventDefault();
+                    dropdown.classList.toggle('open');
+                }
             });
         }
         
@@ -31,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
             link.addEventListener('click', () => {
                 menuToggle.classList.remove('active');
                 mainNav.classList.remove('active');
-                dropdown?.classList.remove('active');
+                dropdown?.classList.remove('open');
             });
         });
         
@@ -41,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             link.addEventListener('click', () => {
                 menuToggle.classList.remove('active');
                 mainNav.classList.remove('active');
-                dropdown?.classList.remove('active');
+                dropdown?.classList.remove('open');
             });
         });
         
@@ -50,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!menuToggle.contains(e.target) && !mainNav.contains(e.target)) {
                 menuToggle.classList.remove('active');
                 mainNav.classList.remove('active');
-                dropdown?.classList.remove('active');
+                dropdown?.classList.remove('open');
             }
         });
     }
@@ -58,38 +63,40 @@ document.addEventListener('DOMContentLoaded', () => {
     // Re-enable dropdown hover on desktop resize
     window.addEventListener('resize', () => {
         if (window.innerWidth > 968) {
-            dropdown?.classList.remove('active');
+            dropdown?.classList.remove('open');
             mainNav?.classList.remove('active');
             menuToggle?.classList.remove('active');
         }
     });
 });
 
-    // ==========================================
-    // Catalogue search 
-    // ==========================================
-    const SEARCH_BASE_URL = 'https://storystore.ath.nz/index.php/search';
-    const SEARCH_PARAM    = 's';
+// ==========================================
+// Catalogue search 
+// ==========================================
+const SEARCH_BASE_URL = 'https://storystore.ath.nz/index.php/search';
+const SEARCH_PARAM = 's';
 
-    const searchForm  = document.getElementById('catalogue-search');
-    const searchInput = document.getElementById('search-input');
+document.querySelectorAll('form.catalogue-search').forEach(form => {
+    const input = form.querySelector('input');
 
-    if (searchForm) {
-        searchForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const term = searchInput.value.trim();
-            if (!term) return;
-            const url = `${SEARCH_BASE_URL}?${SEARCH_PARAM}=${encodeURIComponent(term)}`;
-            window.open(url, '_blank', 'noopener');
-            searchInput.value = '';
-        });
-    }
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const term = input.value.trim();
+        if (!term) return;
+
+        const url = `${SEARCH_BASE_URL}?${SEARCH_PARAM}=${encodeURIComponent(term)}`;
+
+        window.open(url, '_blank', 'noopener');
+        input.value = '';
+    });
+});
 
 // ==========================================
 // Interactive Map with School Locations
 // ==========================================
 function initMap() {
-    console.log('Attempting to initialize map...');
+    console.log('Attempting to initialise map...');
     
     const mapElement = document.getElementById('map');
     if (!mapElement) {
@@ -304,7 +311,7 @@ const initCarousel = () => {
     updateCarousel();
 };
 
-// Initialize carousel when DOM is ready
+// Initialise carousel when DOM is ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initCarousel);
 } else {
