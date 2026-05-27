@@ -210,7 +210,6 @@
     <p>Donations of pristine condition books are always welcome. 
       Many schools run 'book drives' with their students bringing in books from their own bookshelves that they may have outgrown. 
       Monetary donations also help the cause. These funds can be used to purchase recent publications that really do provide the icing on the cake!</p>
-    <ul class="story-bullets">
   </div>
   <div class="about-image" style="background-image: url('assets/images/te_reo.jpg');"></div>
 </div>
@@ -240,22 +239,44 @@
 
 
   <!-- News Section -->
-  <section id="news">
-    <h2>News</h2>
-    <div class="news-posts">
-      <article class="news-item">
-        <h3><a href="https://storystore.athenaeum.nz/post/your-latest-post">Post Title Here</a></h3>
-        <p class="news-date">March 15, 2024</p>
-        <p>Brief excerpt or summary of the post...</p>
-      </article>
-      <article class="news-item">
-        <h3><a href="https://storystore.athenaeum.nz/post/another-post">Another Post Title</a></h3>
-        <p class="news-date">March 10, 2024</p>
-        <p>Brief excerpt...</p>
-      </article>
-    </div>
-    <p><a href="https://storystore.athenaeum.nz" class="view-all">View all news →</a></p>
-  </section>
+<section id="news">
+  <h2>News</h2>
+
+  <div class="news-posts">
+
+    <a class="news-card-link" href="https://storystore.athenaeum.nz/post/volunteers">
+      <div class="news-image" style="background-image:url('assets/images/volunteers.jpg');"></div>
+      <div class="news-content">
+        <h3>Volunteers</h3>
+        <p>We recently had a pair of helpers come in for the day...</p>
+        <span class="read-more">Read more →</span>
+      </div>
+    </a>
+
+    <a class="news-card-link" href="https://storystore.athenaeum.nz/post/10000-books">
+      <div class="news-image" style="background-image:url('assets/images/10000_books.jpg');"></div>
+      <div class="news-content">
+        <h3>10,000 Books and counting...</h3>
+        <p>Here it is... the 10,000th book donated...</p>
+        <span class="read-more">Read more →</span>
+      </div>
+    </a>
+
+    <a class="news-card-link" href="https://storystore.athenaeum.nz/post/first-school-visit">
+      <div class="news-image" style="background-image:url('assets/images/first_school_visit.jpg');"></div>
+      <div class="news-content">
+        <h3>First School Visit!</h3>
+        <p>An historic day in the life of Story Store...</p>
+        <span class="read-more">Read more →</span>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="news-footer">
+    <a href="https://storystore.athenaeum.nz" class="view-all">View all news →</a>
+  </div>
+</section>
 
 <!-- Search Section -->
 <section class="search-section" id="search-section">
@@ -279,15 +300,33 @@
 </section>
 
   <!-- Instagram Section -->
-  <section id="instagram">
-    <div class="instagram-simple">
-      <h2>Follow our journey on Instagram</h2>
-      <p>See our latest book donations, school visits, and community impact</p>
-      <a href="https://www.instagram.com/storystore.org.nz/?hl=en" target="_blank" class="instagram-btn">
-        @storystore.org.nz
-      </a>
+<section id="instagram">
+  <div class="instagram-simple">
+
+    <div class="instagram-widget">
+      <behold-widget feed-id="6uLQpuFeRk6jIjuyjTST"></behold-widget>
+
+      <script>
+        (() => {
+          const d=document,s=d.createElement("script");
+          s.type="module";
+          s.src="https://w.behold.so/widget.js";
+          d.head.append(s);
+        })();
+      </script>
     </div>
-  </section>
+
+    <h2>Follow our journey on Instagram</h2>
+    <p>See our latest book donations, school visits, and community impact</p>
+
+    <a href="https://www.instagram.com/storystore.org.nz/?hl=en"
+       target="_blank"
+       class="instagram-btn">
+      @storystore.org.nz
+    </a>
+
+  </div>
+</section>
 
   <!-- Contact Section -->
   <section id="contact">

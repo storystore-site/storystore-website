@@ -24,6 +24,7 @@ body {
     scroll-behavior: smooth;
     overflow-x: hidden;   /* <-- KEY FIX for iPhone cropping */
     min-width: 0;
+    overflow-x: hidden;
 }
 
 a {
@@ -720,104 +721,176 @@ header img {
 .carousel-btn.next { right: 0; }
 
 /* --- News Section --- */
+
 #news {
-    padding: 4rem 2rem;
-    text-align: center;
-    max-width: 1200px;
-    margin: 0 auto;
+  padding: 4rem var(--page-pad);
+  text-align: center;
 }
 
 #news h2 {
-    margin-bottom: 2rem;
-    font-size: 2.5rem;
-    color: var(--story-red);
+  font-size: 2.5rem;
+  color: var(--story-red);
+  margin-bottom: 2rem;
+}
+
+.news-card-link {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.news-card-link:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
 }
 
 .news-posts {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
 }
 
-.news-item {
-    padding: 2rem;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    text-align: left;
+
+.news-image {
+  width: 100%;
+  height: 180px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-.news-item:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+.news-content {
+  padding: 1.5rem;
 }
 
-.news-item h3 {
-    margin-top: 0;
-    font-size: 1.5rem;
+.news-content h3 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
 }
 
-.news-item h3 a { color: var(--story-red); }
-.news-item h3 a:hover { color: var(--hover-pink); }
+.news-content p {
+  margin-bottom: 1rem;
+}
 
-.news-date {
-    font-size: 0.9rem;
-    color: #888;
-    margin: 0.5rem 0 1rem;
+.read-more {
+  font-weight: 600;
+}
+
+.news-footer {
+  margin-top: 2rem;
+  text-align: center;
 }
 
 .view-all {
-    display: inline-block;
-    margin-top: 1rem;
-    color: var(--story-red);
-    font-weight: 700;
-    font-size: 1.1rem;
-    transition: color 0.3s ease;
+  font-weight: 600;
+  color: var(--story-blue-dark);
+  text-decoration: underline;
 }
-
-.view-all:hover { color: var(--hover-pink); }
 
 /* --- Instagram Section --- */
 #instagram {
-    background: linear-gradient(135deg, var(--story-blue-light) 0%, var(--story-white) 100%);
-    padding: 5rem 2rem;
+    background: linear-gradient(
+        135deg,
+        var(--story-blue-light) 0%,
+        var(--story-white) 100%
+    );
+    padding: 5rem var(--page-pad);
     text-align: center;
 }
 
+/* Inner container */
 .instagram-simple {
-    max-width: 600px;
+    max-width: 700px;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
 }
 
+/* Widget wrapper (controls size) */
+.instagram-widget {
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+
+    /* visual framing */
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+
+    overflow: hidden;
+}
+
+/* Make embedded widget respect container */
+.instagram-widget behold-widget {
+    width: 100% !important;
+    display: block;
+}
+
+/* Typography */
 .instagram-simple h2 {
     font-size: 2.5rem;
     color: var(--story-red);
-    margin-bottom: 1rem;
+    margin: 0;
 }
 
 .instagram-simple p {
     font-size: 1.125rem;
     color: var(--story-grey);
-    margin-bottom: 2rem;
     line-height: 1.6;
+    margin: 0;
+    max-width: 500px;
 }
 
+/* Button */
 .instagram-btn {
     display: inline-block;
     padding: 1rem 2.5rem;
-    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    background: linear-gradient(
+        45deg,
+        #f09433 0%,
+        #e6683c 25%,
+        #dc2743 50%,
+        #cc2366 75%,
+        #bc1888 100%
+    );
     color: white;
     border-radius: 50px;
     font-weight: 700;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     transition: all 0.3s ease;
 }
 
 .instagram-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(188, 24, 136, 0.3);
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    #instagram {
+        padding: 4rem 1.5rem;
+    }
+
+    .instagram-simple h2 {
+        font-size: 2rem;
+    }
+
+    .instagram-simple p {
+        font-size: 1rem;
+    }
+
+    .instagram-widget {
+        max-width: 100%;
+    }
 }
 
 /* --- Contact Section --- */
@@ -842,23 +915,23 @@ header img {
 }
 
 .contact-text > p {
-    font-size: 1.125rem;
-    line-height: 1.6;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
 }
 
 .contact-details {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(0,0,0,0.08);
 }
 
 .contact-item h4 { color: var(--story-red); margin-bottom: 0.5rem; }
 
+.contact-item p,
 .contact-item a {
-    color: var(--story-blue-dark);
-    text-decoration: underline;
-    transition: color 0.3s ease;
+    margin: 0;
+    line-height: 1.5;
 }
 
 .contact-item a:hover { color: var(--hover-pink); }
