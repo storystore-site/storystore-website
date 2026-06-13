@@ -13,7 +13,7 @@
 /* ============================================
    overflow-x hidden stops horizontal
    scroll on iPhone. min-width: 0 lets flex
-   children shrink below their content size.
+   children shrink below their content size
    ============================================ */
 html,
 body {
@@ -132,7 +132,7 @@ header img {
 /* ============================================
    DROPDOWN — toggled via .open class from JS.
    No CSS :hover rules; JS mouseenter/mouseleave
-   handles open/close so the menu never jumps.
+   handles open/close so the menu never jumps
 ============================================ */
 /* ============================================
    DROPDOWN — :hover for desktop, .open for mobile accordion
@@ -438,7 +438,7 @@ header img {
 }
 
 /* ============================================
-   The SVG animation container
+    SVG animation container
    ============================================ */
 .animation-container {
     flex: 1;
@@ -509,10 +509,10 @@ header img {
 }
 
 /* ============================================
-   Using clamp() scales padding gracefully:
+   Using clamp() scales padding:
    min 1rem on very small screens,
    preferred 4vw (scales with viewport),
-   max 4rem on large screens.
+   max 4rem on large screens
    ============================================ */
 .about-section-item {
     display: grid;
@@ -997,11 +997,11 @@ footer a:hover { color: var(--hover-pink); }
     }
 
     /* ============================================
-       mobile nav panel.
+       mobile nav panel
        Added a semi-transparent overlay (via
        body::after) so tapping outside closes it.
        The JS needs to toggle .nav-open on <body>
-       (see script.js instructions below).
+       (see script.js instructions below)
        ============================================ */
     .main-nav {
         position: fixed;
@@ -1055,9 +1055,9 @@ footer a:hover { color: var(--hover-pink); }
         border-left: 2px solid var(--story-red);
     }
 
-    /* dropdown toggling on mobile.
-       JS should toggle .active on the .dropdown element.
-       We use the class instead of :hover so touch works. */
+    /* dropdown toggling on mobile
+       JS should toggle .active on the .dropdown element
+       We use the class instead of :hover so touch works */
     .dropdown.active .dropdown-menu {
         display: block;
     }
@@ -1100,10 +1100,7 @@ footer a:hover { color: var(--hover-pink); }
         padding: 3rem 2rem;
     }
 
-    /* Switch to single-column layout on tablet/mobile.
-       The original used repeat(auto-fit, minmax(300px, 1fr))
-       which could still produce two columns on iPad.
-       1fr is cleaner and more reliable. */
+    /* Switch to single-column layout on tablet/mobile */
     .about-section-item,
     .about-section-item.reverse {
         grid-template-columns: 1fr;
